@@ -3,8 +3,9 @@ package specbase
 import "strings"
 
 const (
-	DefaultMode      = InsertMode
+	DefaultMode      = UpsertMode
 	InsertMode  Mode = "INSERT"
+	UpsertMode  Mode = "UPSERT"
 	UpdateMode  Mode = "UPDATE"
 	DeleteMode  Mode = "DELETE"
 )
@@ -19,5 +20,5 @@ func (m Mode) Convert() Mode {
 }
 
 func (m Mode) IsSupport() bool {
-	return m == InsertMode || m == UpdateMode || m == DeleteMode
+	return m == InsertMode || m == UpdateMode || m == DeleteMode || m == UpsertMode
 }

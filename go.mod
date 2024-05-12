@@ -1,6 +1,6 @@
-module github.com/vesoft-inc/nebula-importer/v4
+module github.com/vesoft-inc/nebula-importer/v5
 
-go 1.19
+go 1.22.1
 
 require (
 	cloud.google.com/go/storage v1.30.1
@@ -24,6 +24,7 @@ require (
 	github.com/spf13/cobra v1.6.1
 	github.com/valyala/bytebufferpool v1.0.0
 	github.com/vesoft-inc/nebula-go/v3 v3.6.1
+	github.com/vesoft-inc/nebula-importer/v4 v4.1.0
 	go.uber.org/zap v1.23.0
 	golang.org/x/crypto v0.17.0
 	google.golang.org/api v0.114.0
@@ -54,7 +55,7 @@ require (
 	github.com/jcmturner/rpc/v2 v2.0.3 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/kr/fs v0.1.0 // indirect
-	github.com/kr/text v0.2.0 // indirect
+	github.com/kr/pretty v0.2.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/vesoft-inc/fbthrift v0.0.0-20230214024353-fa2f34755b28 // indirect
 	go.opencensus.io v0.24.0 // indirect
@@ -70,5 +71,4 @@ require (
 	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
 	google.golang.org/grpc v1.56.3 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
-	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )

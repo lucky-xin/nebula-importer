@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/bytebufferpool"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
-	specbase "github.com/vesoft-inc/nebula-importer/v4/pkg/spec/base"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/utils"
+	"github.com/vesoft-inc/nebula-importer/v5/pkg/bytebufferpool"
+	"github.com/vesoft-inc/nebula-importer/v5/pkg/errors"
+	specbase "github.com/vesoft-inc/nebula-importer/v5/pkg/spec/base"
+	"github.com/vesoft-inc/nebula-importer/v5/pkg/utils"
 )
 
 type (
@@ -128,6 +128,19 @@ func (e *Edge) Complete() {
 		insertPrefixFmt := "INSERT EDGE IGNORE_EXISTED_INDEX %s(%s) VALUES "
 		if e.IgnoreExistedIndex != nil && !*e.IgnoreExistedIndex {
 			insertPrefixFmt = "INSERT EDGE %s(%s) VALUES "
+		}
+
+		e.statementPrefix = fmt.Sprintf(
+			insertPrefixFmt,
+			utils.ConvertIdentifier(e.Name),
+			strings.Join(e.Props.NameList(), ", "),
+		)
+	case specbase.UpsertMode:
+		e.fnStatement = e.insertStatement
+		// default enable IGNORE_EXISTED_INDEX
+		insertPrefixFmt := "UPSERT EDGE IGNORE_EXISTED_INDEX %s(%s) VALUES "
+		if e.IgnoreExistedIndex != nil && !*e.IgnoreExistedIndex {
+			insertPrefixFmt = "UPSERT EDGE %s(%s) VALUES "
 		}
 
 		e.statementPrefix = fmt.Sprintf(

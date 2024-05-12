@@ -4,8 +4,8 @@ import (
 	stderrors "errors"
 	"fmt"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
-	specbase "github.com/vesoft-inc/nebula-importer/v4/pkg/spec/base"
+	"github.com/vesoft-inc/nebula-importer/v5/pkg/errors"
+	specbase "github.com/vesoft-inc/nebula-importer/v5/pkg/spec/base"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"

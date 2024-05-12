@@ -1,8 +1,8 @@
 package specv3
 
 import (
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
-	specbase "github.com/vesoft-inc/nebula-importer/v4/pkg/spec/base"
+	"github.com/vesoft-inc/nebula-importer/v5/pkg/errors"
+	specbase "github.com/vesoft-inc/nebula-importer/v5/pkg/spec/base"
 )
 
 type (

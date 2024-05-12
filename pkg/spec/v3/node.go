@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/bytebufferpool"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
-	specbase "github.com/vesoft-inc/nebula-importer/v4/pkg/spec/base"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/utils"
+	"github.com/vesoft-inc/nebula-importer/v5/pkg/bytebufferpool"
+	"github.com/vesoft-inc/nebula-importer/v5/pkg/errors"
+	specbase "github.com/vesoft-inc/nebula-importer/v5/pkg/spec/base"
+	"github.com/vesoft-inc/nebula-importer/v5/pkg/utils"
 )
 
 type (
@@ -97,6 +97,18 @@ func (n *Node) Complete() {
 		insertPrefixFmt := "INSERT VERTEX IGNORE_EXISTED_INDEX %s(%s) VALUES "
 		if n.IgnoreExistedIndex != nil && !*n.IgnoreExistedIndex {
 			insertPrefixFmt = "INSERT VERTEX %s(%s) VALUES "
+		}
+		n.statementPrefix = fmt.Sprintf(
+			insertPrefixFmt,
+			utils.ConvertIdentifier(n.Name),
+			strings.Join(n.Props.NameList(), ", "),
+		)
+	case specbase.UpsertMode:
+		n.fnStatement = n.insertStatement
+		// default enable IGNORE_EXISTED_INDEX
+		insertPrefixFmt := "UPSERT VERTEX IGNORE_EXISTED_INDEX %s(%s) VALUES "
+		if n.IgnoreExistedIndex != nil && !*n.IgnoreExistedIndex {
+			insertPrefixFmt = "UPSERT VERTEX %s(%s) VALUES "
 		}
 		n.statementPrefix = fmt.Sprintf(
 			insertPrefixFmt,

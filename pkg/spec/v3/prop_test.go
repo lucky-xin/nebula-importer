@@ -4,7 +4,7 @@ import (
 	stderrors "errors"
 	"strings"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
+	"github.com/vesoft-inc/nebula-importer/v5/pkg/errors"
 
 	"github.com/agiledragon/gomonkey/v2"
 	. "github.com/onsi/ginkgo/v2"

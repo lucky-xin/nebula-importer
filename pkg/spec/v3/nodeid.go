@@ -3,8 +3,8 @@ package specv3
 import (
 	"strings"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/picker"
+	"github.com/vesoft-inc/nebula-importer/v5/pkg/errors"
+	"github.com/vesoft-inc/nebula-importer/v5/pkg/picker"
 )
 
 var supportedNodeIDFunctions = map[string]struct{}{
