@@ -1,9 +1,9 @@
 package specv3
 
 import (
-	"github.com/vesoft-inc/nebula-importer/v5/pkg/errors"
-	"github.com/vesoft-inc/nebula-importer/v5/pkg/picker"
-	"github.com/vesoft-inc/nebula-importer/v5/pkg/utils"
+	"github.com/lucky-xin/nebula-importer/pkg/errors"
+	"github.com/lucky-xin/nebula-importer/pkg/picker"
+	"github.com/lucky-xin/nebula-importer/pkg/utils"
 )
 
 type (

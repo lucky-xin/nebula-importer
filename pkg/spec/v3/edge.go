@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/vesoft-inc/nebula-importer/v5/pkg/bytebufferpool"
-	"github.com/vesoft-inc/nebula-importer/v5/pkg/errors"
-	specbase "github.com/vesoft-inc/nebula-importer/v5/pkg/spec/base"
-	"github.com/vesoft-inc/nebula-importer/v5/pkg/utils"
+	"github.com/lucky-xin/nebula-importer/pkg/bytebufferpool"
+	"github.com/lucky-xin/nebula-importer/pkg/errors"
+	specbase "github.com/lucky-xin/nebula-importer/pkg/spec/base"
+	"github.com/lucky-xin/nebula-importer/pkg/utils"
 )
 
 type (

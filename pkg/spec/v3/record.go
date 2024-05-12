@@ -1,6 +1,6 @@
 package specv3
 
-import specbase "github.com/vesoft-inc/nebula-importer/v5/pkg/spec/base"
+import specbase "github.com/lucky-xin/nebula-importer/pkg/spec/base"
 
 type (
 	Record  = specbase.Record
