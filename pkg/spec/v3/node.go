@@ -104,17 +104,8 @@ func (n *Node) Complete() {
 			strings.Join(n.Props.NameList(), ", "),
 		)
 	case specbase.UpsertMode:
-		n.fnStatement = n.insertStatement
-		// default enable IGNORE_EXISTED_INDEX
-		insertPrefixFmt := "UPSERT VERTEX IGNORE_EXISTED_INDEX %s(%s) VALUES "
-		if n.IgnoreExistedIndex != nil && !*n.IgnoreExistedIndex {
-			insertPrefixFmt = "UPSERT VERTEX %s(%s) VALUES "
-		}
-		n.statementPrefix = fmt.Sprintf(
-			insertPrefixFmt,
-			utils.ConvertIdentifier(n.Name),
-			strings.Join(n.Props.NameList(), ", "),
-		)
+		n.fnStatement = n.updateStatement
+		n.statementPrefix = fmt.Sprintf("UPSERT VERTEX ON %s ", utils.ConvertIdentifier(n.Name))
 	case specbase.UpdateMode:
 		n.fnStatement = n.updateStatement
 		n.statementPrefix = fmt.Sprintf("UPDATE VERTEX ON %s ", utils.ConvertIdentifier(n.Name))
@@ -151,7 +142,7 @@ func (n *Node) Validate() error {
 		return n.importError(errors.ErrUnsupportedMode)
 	}
 
-	if n.Mode == specbase.UpdateMode && len(n.Props) == 0 {
+	if (n.Mode == specbase.UpdateMode || n.Mode == specbase.UpsertMode) && len(n.Props) == 0 {
 		return n.importError(errors.ErrNoProps)
 	}
 

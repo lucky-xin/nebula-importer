@@ -136,18 +136,8 @@ func (e *Edge) Complete() {
 			strings.Join(e.Props.NameList(), ", "),
 		)
 	case specbase.UpsertMode:
-		e.fnStatement = e.insertStatement
-		// default enable IGNORE_EXISTED_INDEX
-		insertPrefixFmt := "UPSERT EDGE IGNORE_EXISTED_INDEX %s(%s) VALUES "
-		if e.IgnoreExistedIndex != nil && !*e.IgnoreExistedIndex {
-			insertPrefixFmt = "UPSERT EDGE %s(%s) VALUES "
-		}
-
-		e.statementPrefix = fmt.Sprintf(
-			insertPrefixFmt,
-			utils.ConvertIdentifier(e.Name),
-			strings.Join(e.Props.NameList(), ", "),
-		)
+		e.fnStatement = e.updateStatement
+		e.statementPrefix = fmt.Sprintf("UPSERT EDGE ON %s ", utils.ConvertIdentifier(e.Name))
 	case specbase.UpdateMode:
 		e.fnStatement = e.updateStatement
 		e.statementPrefix = fmt.Sprintf("UPDATE EDGE ON %s ", utils.ConvertIdentifier(e.Name))
@@ -198,7 +188,7 @@ func (e *Edge) Validate() error {
 		return e.importError(errors.ErrUnsupportedMode)
 	}
 
-	if e.Mode == specbase.UpdateMode && len(e.Props) == 0 {
+	if (e.Mode == specbase.UpdateMode || e.Mode == specbase.UpsertMode) && len(e.Props) == 0 {
 		return e.importError(errors.ErrNoProps)
 	}
 
