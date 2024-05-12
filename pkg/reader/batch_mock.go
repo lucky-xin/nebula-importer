@@ -8,8 +8,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	source "github.com/vesoft-inc/nebula-importer/v4/pkg/source"
-	spec "github.com/vesoft-inc/nebula-importer/v4/pkg/spec"
+	source "github.com/lucky-xin/nebula-importer/pkg/source"
+	spec "github.com/lucky-xin/nebula-importer/pkg/spec"
 )
 
 // MockBatchRecordReader is a mock of BatchRecordReader interface.

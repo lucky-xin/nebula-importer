@@ -4,10 +4,10 @@ import (
 	stderrors "errors"
 	"path/filepath"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/client"
-	configbase "github.com/vesoft-inc/nebula-importer/v4/pkg/config/base"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/source"
-	specv3 "github.com/vesoft-inc/nebula-importer/v4/pkg/spec/v3"
+	"github.com/lucky-xin/nebula-importer/pkg/client"
+	configbase "github.com/lucky-xin/nebula-importer/pkg/config/base"
+	"github.com/lucky-xin/nebula-importer/pkg/source"
+	specv3 "github.com/lucky-xin/nebula-importer/pkg/spec/v3"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo/v2"

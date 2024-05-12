@@ -1,7 +1,7 @@
 package picker
 
 import (
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
+	"github.com/lucky-xin/nebula-importer/pkg/errors"
 )
 
 var (

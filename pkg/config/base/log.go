@@ -3,8 +3,8 @@ package configbase
 import (
 	"path/filepath"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/logger"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/utils"
+	"github.com/lucky-xin/nebula-importer/pkg/logger"
+	"github.com/lucky-xin/nebula-importer/pkg/utils"
 )
 
 type Log struct {

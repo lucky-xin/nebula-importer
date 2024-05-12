@@ -1,7 +1,7 @@
 package reader
 
 import (
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/source"
+	"github.com/lucky-xin/nebula-importer/pkg/source"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"

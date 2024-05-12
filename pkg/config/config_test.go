@@ -4,9 +4,9 @@ import (
 	"bytes"
 	stderrors "errors"
 
-	configbase "github.com/vesoft-inc/nebula-importer/v4/pkg/config/base"
-	configv3 "github.com/vesoft-inc/nebula-importer/v4/pkg/config/v3"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
+	configbase "github.com/lucky-xin/nebula-importer/pkg/config/base"
+	configv3 "github.com/lucky-xin/nebula-importer/pkg/config/v3"
+	"github.com/lucky-xin/nebula-importer/pkg/errors"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"

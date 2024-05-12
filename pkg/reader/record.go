@@ -2,8 +2,8 @@
 package reader
 
 import (
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/source"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/spec"
+	"github.com/lucky-xin/nebula-importer/pkg/source"
+	"github.com/lucky-xin/nebula-importer/pkg/spec"
 )
 
 type (

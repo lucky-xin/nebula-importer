@@ -1,10 +1,10 @@
-//go:generate mockgen -source=pool.go -destination pool_mock.go -package client -aux_files github.com/vesoft-inc/nebula-importer/v4/pkg/client=client.go Pool
+//go:generate mockgen -source=pool.go -destination pool_mock.go -package client -aux_files github.com/lucky-xin/nebula-importer/pkg/client=client.go Pool
 package client
 
 import (
 	"sync"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
+	"github.com/lucky-xin/nebula-importer/pkg/errors"
 
 	"github.com/cenkalti/backoff/v4"
 )

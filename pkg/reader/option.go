@@ -1,7 +1,7 @@
 package reader
 
 import (
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/logger"
+	"github.com/lucky-xin/nebula-importer/pkg/logger"
 )
 
 const (

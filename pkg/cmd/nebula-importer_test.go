@@ -7,9 +7,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/client"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/cmd/common"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/manager"
+	"github.com/lucky-xin/nebula-importer/pkg/client"
+	"github.com/lucky-xin/nebula-importer/pkg/cmd/common"
+	"github.com/lucky-xin/nebula-importer/pkg/manager"
 
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/golang/mock/gomock"

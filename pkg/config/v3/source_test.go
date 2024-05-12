@@ -4,8 +4,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/source"
-	specv3 "github.com/vesoft-inc/nebula-importer/v4/pkg/spec/v3"
+	"github.com/lucky-xin/nebula-importer/pkg/source"
+	specv3 "github.com/lucky-xin/nebula-importer/pkg/spec/v3"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"

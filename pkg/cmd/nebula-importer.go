@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/client"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/cmd/common"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/config"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/logger"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/manager"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/version"
+	"github.com/lucky-xin/nebula-importer/pkg/client"
+	"github.com/lucky-xin/nebula-importer/pkg/cmd/common"
+	"github.com/lucky-xin/nebula-importer/pkg/config"
+	"github.com/lucky-xin/nebula-importer/pkg/errors"
+	"github.com/lucky-xin/nebula-importer/pkg/logger"
+	"github.com/lucky-xin/nebula-importer/pkg/manager"
+	"github.com/lucky-xin/nebula-importer/pkg/version"
 
 	"github.com/spf13/cobra"
 )

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/cmd"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/cmd/util"
+	"github.com/lucky-xin/nebula-importer/pkg/cmd"
+	"github.com/lucky-xin/nebula-importer/pkg/cmd/util"
 )
 
 func main() {

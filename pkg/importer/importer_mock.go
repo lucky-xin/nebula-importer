@@ -8,7 +8,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	spec "github.com/vesoft-inc/nebula-importer/v4/pkg/spec"
+	spec "github.com/lucky-xin/nebula-importer/pkg/spec"
 )
 
 // MockImporter is a mock of Importer interface.

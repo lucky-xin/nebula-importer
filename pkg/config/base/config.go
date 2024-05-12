@@ -1,9 +1,9 @@
 package configbase
 
 import (
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/client"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/logger"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/manager"
+	"github.com/lucky-xin/nebula-importer/pkg/client"
+	"github.com/lucky-xin/nebula-importer/pkg/logger"
+	"github.com/lucky-xin/nebula-importer/pkg/manager"
 )
 
 type Configurator interface {

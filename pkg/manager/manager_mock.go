@@ -8,10 +8,10 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	importer "github.com/vesoft-inc/nebula-importer/v4/pkg/importer"
-	reader "github.com/vesoft-inc/nebula-importer/v4/pkg/reader"
-	source "github.com/vesoft-inc/nebula-importer/v4/pkg/source"
-	stats "github.com/vesoft-inc/nebula-importer/v4/pkg/stats"
+	importer "github.com/lucky-xin/nebula-importer/pkg/importer"
+	reader "github.com/lucky-xin/nebula-importer/pkg/reader"
+	source "github.com/lucky-xin/nebula-importer/pkg/source"
+	stats "github.com/lucky-xin/nebula-importer/pkg/stats"
 )
 
 // MockManager is a mock of Manager interface.

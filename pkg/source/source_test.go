@@ -1,9 +1,9 @@
 package source
 
 import (
+	"github.com/lucky-xin/nebula-importer/pkg/errors"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
 )
 
 var _ = Describe("Source", func() {

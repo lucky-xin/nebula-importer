@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/utils"
+	"github.com/lucky-xin/nebula-importer/pkg/errors"
+	"github.com/lucky-xin/nebula-importer/pkg/utils"
 )
 
 var (

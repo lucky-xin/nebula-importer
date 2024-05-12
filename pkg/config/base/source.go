@@ -4,8 +4,8 @@ import (
 	"io/fs"
 	"os"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/reader"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/source"
+	"github.com/lucky-xin/nebula-importer/pkg/reader"
+	"github.com/lucky-xin/nebula-importer/pkg/source"
 )
 
 var sourceNew = source.New

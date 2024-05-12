@@ -3,7 +3,7 @@ package picker
 import (
 	"strings"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
+	"github.com/lucky-xin/nebula-importer/pkg/errors"
 )
 
 // Config is the configuration to build Picker

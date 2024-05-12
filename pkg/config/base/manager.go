@@ -3,7 +3,7 @@ package configbase
 import (
 	"time"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/manager"
+	"github.com/lucky-xin/nebula-importer/pkg/manager"
 )
 
 type (

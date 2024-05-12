@@ -3,11 +3,11 @@ package configv3
 import (
 	"path/filepath"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/client"
-	configbase "github.com/vesoft-inc/nebula-importer/v4/pkg/config/base"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/importer"
-	specv3 "github.com/vesoft-inc/nebula-importer/v4/pkg/spec/v3"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/utils"
+	"github.com/lucky-xin/nebula-importer/pkg/client"
+	configbase "github.com/lucky-xin/nebula-importer/pkg/config/base"
+	"github.com/lucky-xin/nebula-importer/pkg/importer"
+	specv3 "github.com/lucky-xin/nebula-importer/pkg/spec/v3"
+	"github.com/lucky-xin/nebula-importer/pkg/utils"
 )
 
 type (

@@ -5,10 +5,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/client"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/spec"
-	specbase "github.com/vesoft-inc/nebula-importer/v4/pkg/spec/base"
+	"github.com/lucky-xin/nebula-importer/pkg/client"
+	"github.com/lucky-xin/nebula-importer/pkg/errors"
+	"github.com/lucky-xin/nebula-importer/pkg/spec"
+	specbase "github.com/lucky-xin/nebula-importer/pkg/spec/base"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo/v2"

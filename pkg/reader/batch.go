@@ -4,9 +4,9 @@ package reader
 import (
 	stderrors "errors"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/logger"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/source"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/spec"
+	"github.com/lucky-xin/nebula-importer/pkg/logger"
+	"github.com/lucky-xin/nebula-importer/pkg/source"
+	"github.com/lucky-xin/nebula-importer/pkg/spec"
 )
 
 type (

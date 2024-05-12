@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/logger"
+	"github.com/lucky-xin/nebula-importer/pkg/logger"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"

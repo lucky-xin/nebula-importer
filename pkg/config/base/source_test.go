@@ -3,7 +3,7 @@ package configbase
 import (
 	stderrors "errors"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/source"
+	"github.com/lucky-xin/nebula-importer/pkg/source"
 
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/golang/mock/gomock"

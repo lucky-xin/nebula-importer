@@ -6,11 +6,11 @@ require (
 	cloud.google.com/go/storage v1.40.0
 	github.com/agiledragon/gomonkey/v2 v2.9.0
 	github.com/aliyun/aliyun-oss-go-sdk v3.0.2+incompatible
-	github.com/antonmedv/expr v1.15.5
 	github.com/aws/aws-sdk-go v1.53.0
 	github.com/cenkalti/backoff/v4 v4.3.0
 	github.com/colinmarc/hdfs/v2 v2.4.0
 	github.com/dustin/go-humanize v1.0.1
+	github.com/expr-lang/expr v1.16.7
 	github.com/fclairamb/ftpserverlib v0.21.0
 	github.com/golang/mock v1.6.0
 	github.com/jcmturner/gokrb5/v8 v8.4.4
@@ -24,7 +24,6 @@ require (
 	github.com/spf13/cobra v1.8.0
 	github.com/valyala/bytebufferpool v1.0.0
 	github.com/vesoft-inc/nebula-go/v3 v3.8.0
-	github.com/vesoft-inc/nebula-importer/v4 v4.1.0
 	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.23.0
 	google.golang.org/api v0.180.0

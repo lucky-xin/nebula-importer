@@ -5,8 +5,8 @@ package client
 import (
 	stderrors "errors"
 
+	"github.com/lucky-xin/nebula-importer/pkg/logger"
 	nebula "github.com/vesoft-inc/nebula-go/v3"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/logger"
 
 	"github.com/agiledragon/gomonkey/v2"
 	. "github.com/onsi/ginkgo/v2"

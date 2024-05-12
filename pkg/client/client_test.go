@@ -5,7 +5,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
+	"github.com/lucky-xin/nebula-importer/pkg/errors"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo/v2"

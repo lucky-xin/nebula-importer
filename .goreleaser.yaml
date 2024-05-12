@@ -16,10 +16,10 @@ builds:
       - -trimpath
     ldflags:
       - -s -w
-      - -X github.com/vesoft-inc/nebula-importer/v4/pkg/version.buildVersion={{ .Version }}
-      - -X github.com/vesoft-inc/nebula-importer/v4/pkg/version.buildCommit={{ .FullCommit }}
-      - -X github.com/vesoft-inc/nebula-importer/v4/pkg/version.buildCommitDate={{ .CommitDate }}
-      - -X github.com/vesoft-inc/nebula-importer/v4/pkg/version.buildDate={{ .Date }}
+      - -X github.com/lucky-xin/nebula-importer/pkg/version.buildVersion={{ .Version }}
+      - -X github.com/lucky-xin/nebula-importer/pkg/version.buildCommit={{ .FullCommit }}
+      - -X github.com/lucky-xin/nebula-importer/pkg/version.buildCommitDate={{ .CommitDate }}
+      - -X github.com/lucky-xin/nebula-importer/pkg/version.buildDate={{ .Date }}
     goos:
       - linux
       - windows

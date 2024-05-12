@@ -8,14 +8,14 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/client"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/importer"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/logger"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/reader"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/source"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/spec"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/stats"
+	"github.com/lucky-xin/nebula-importer/pkg/client"
+	"github.com/lucky-xin/nebula-importer/pkg/errors"
+	"github.com/lucky-xin/nebula-importer/pkg/importer"
+	"github.com/lucky-xin/nebula-importer/pkg/logger"
+	"github.com/lucky-xin/nebula-importer/pkg/reader"
+	"github.com/lucky-xin/nebula-importer/pkg/source"
+	"github.com/lucky-xin/nebula-importer/pkg/spec"
+	"github.com/lucky-xin/nebula-importer/pkg/stats"
 
 	"github.com/panjf2000/ants/v2"
 )

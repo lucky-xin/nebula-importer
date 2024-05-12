@@ -1,6 +1,6 @@
 package reader
 
-import "github.com/vesoft-inc/nebula-importer/v4/pkg/source"
+import "github.com/lucky-xin/nebula-importer/pkg/source"
 
 type (
 	baseReader struct {

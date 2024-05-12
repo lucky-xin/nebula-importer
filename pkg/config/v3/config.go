@@ -3,11 +3,11 @@ package configv3
 import (
 	"fmt"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/client"
-	configbase "github.com/vesoft-inc/nebula-importer/v4/pkg/config/base"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/logger"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/manager"
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/utils"
+	"github.com/lucky-xin/nebula-importer/pkg/client"
+	configbase "github.com/lucky-xin/nebula-importer/pkg/config/base"
+	"github.com/lucky-xin/nebula-importer/pkg/logger"
+	"github.com/lucky-xin/nebula-importer/pkg/manager"
+	"github.com/lucky-xin/nebula-importer/pkg/utils"
 )
 
 var _ configbase.Configurator = (*Config)(nil)

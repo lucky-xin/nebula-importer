@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/vesoft-inc/nebula-importer/v4/pkg/errors"
+	"github.com/lucky-xin/nebula-importer/pkg/errors"
 
 	"github.com/cenkalti/backoff/v4"
 )
