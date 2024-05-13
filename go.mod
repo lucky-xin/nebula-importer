@@ -11,7 +11,7 @@ require (
 	github.com/colinmarc/hdfs/v2 v2.4.0
 	github.com/dustin/go-humanize v1.0.1
 	github.com/expr-lang/expr v1.16.7
-	github.com/fclairamb/ftpserverlib v0.21.0
+	github.com/fclairamb/ftpserverlib v0.24.0
 	github.com/golang/mock v1.6.0
 	github.com/jcmturner/gokrb5/v8 v8.4.4
 	github.com/jlaffaye/ftp v0.2.0
@@ -20,7 +20,7 @@ require (
 	github.com/panjf2000/ants/v2 v2.9.1
 	github.com/pkg/errors v0.9.1
 	github.com/pkg/sftp v1.13.6
-	github.com/spf13/afero v1.9.3
+	github.com/spf13/afero v1.11.0
 	github.com/spf13/cobra v1.8.0
 	github.com/valyala/bytebufferpool v1.0.0
 	github.com/vesoft-inc/nebula-go/v3 v3.8.0
@@ -36,7 +36,7 @@ require (
 	cloud.google.com/go/auth/oauth2adapt v0.2.2 // indirect
 	cloud.google.com/go/compute/metadata v0.3.0 // indirect
 	cloud.google.com/go/iam v1.1.8 // indirect
-	github.com/fclairamb/go-log v0.4.1 // indirect
+	github.com/fclairamb/go-log v0.5.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/go-logr/logr v1.4.1 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
@@ -60,7 +60,6 @@ require (
 	github.com/jcmturner/rpc/v2 v2.0.3 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/kr/fs v0.1.0 // indirect
-	github.com/kr/pretty v0.2.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/vesoft-inc/fbthrift v0.0.0-20230214024353-fa2f34755b28 // indirect
 	go.opencensus.io v0.24.0 // indirect
