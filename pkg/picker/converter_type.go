@@ -61,11 +61,21 @@ func NewTypeConverter(t string) (Converter, error) {
 		return TypeBoolConverter{}, nil
 	case "INT":
 		return TypeIntConverter{}, nil
+	case "INT8":
+		return TypeIntConverter{}, nil
+	case "INT16":
+		return TypeIntConverter{}, nil
+	case "INT32":
+		return TypeIntConverter{}, nil
+	case "INT64":
+		return TypeIntConverter{}, nil
 	case "FLOAT":
 		return TypeFloatConverter{}, nil
 	case "DOUBLE":
 		return TypeDoubleConverter{}, nil
 	case "STRING":
+		return TypeStringConverter{}, nil
+	case "FIXED_STRING":
 		return TypeStringConverter{}, nil
 	case "DATE":
 		return TypeDateConverter{
