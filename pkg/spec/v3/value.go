@@ -9,7 +9,12 @@ const (
 
 	ValueTypeBool          ValueType = "BOOL"
 	ValueTypeInt           ValueType = "INT"
+	ValueTypeInt8          ValueType = "INT8"
+	ValueTypeInt16         ValueType = "INT16"
+	ValueTypeInt32         ValueType = "INT32"
+	ValueTypeInt64         ValueType = "INT64"
 	ValueTypeString        ValueType = "STRING"
+	ValueTypeFixedString   ValueType = "FIXED_STRING"
 	ValueTypeFloat         ValueType = "FLOAT"
 	ValueTypeDouble        ValueType = "DOUBLE"
 	ValueTypeDate          ValueType = "DATE"
@@ -27,8 +32,12 @@ const (
 var (
 	supportedPropValueTypes = map[ValueType]struct{}{
 		ValueTypeBool:          {},
-		ValueTypeInt:           {},
+		ValueTypeInt8:          {},
+		ValueTypeInt16:         {},
+		ValueTypeInt32:         {},
+		ValueTypeInt64:         {},
 		ValueTypeString:        {},
+		ValueTypeFixedString:   {},
 		ValueTypeFloat:         {},
 		ValueTypeDouble:        {},
 		ValueTypeDate:          {},
