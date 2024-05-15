@@ -3,10 +3,10 @@ module github.com/lucky-xin/nebula-importer
 go 1.22.1
 
 require (
-	cloud.google.com/go/storage v1.40.0
+	cloud.google.com/go/storage v1.41.0
 	github.com/agiledragon/gomonkey/v2 v2.11.0
 	github.com/aliyun/aliyun-oss-go-sdk v3.0.2+incompatible
-	github.com/aws/aws-sdk-go v1.53.0
+	github.com/aws/aws-sdk-go v1.53.2
 	github.com/cenkalti/backoff/v4 v4.3.0
 	github.com/colinmarc/hdfs/v2 v2.4.0
 	github.com/dustin/go-humanize v1.0.1
@@ -16,7 +16,7 @@ require (
 	github.com/jcmturner/gokrb5/v8 v8.4.4
 	github.com/jlaffaye/ftp v0.2.0
 	github.com/onsi/ginkgo/v2 v2.17.3
-	github.com/onsi/gomega v1.33.0
+	github.com/onsi/gomega v1.33.1
 	github.com/panjf2000/ants/v2 v2.9.1
 	github.com/pkg/errors v0.9.1
 	github.com/pkg/sftp v1.13.6
