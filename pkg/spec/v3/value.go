@@ -32,6 +32,7 @@ const (
 var (
 	supportedPropValueTypes = map[ValueType]struct{}{
 		ValueTypeBool:          {},
+		ValueTypeInt:           {},
 		ValueTypeInt8:          {},
 		ValueTypeInt16:         {},
 		ValueTypeInt32:         {},
@@ -52,6 +53,7 @@ var (
 
 	supportedNodeIDValueTypes = map[ValueType]struct{}{
 		ValueTypeInt:    {},
+		ValueTypeInt64:  {},
 		ValueTypeString: {},
 	}
 )
