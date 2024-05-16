@@ -9,6 +9,7 @@ type (
 		SFTP  *SFTPConfig  `yaml:"sftp,omitempty"`
 		HDFS  *HDFSConfig  `yaml:"hdfs,omitempty"`
 		GCS   *GCSConfig   `yaml:"gcs,omitempty"`
+		SQL   *MySQLConfig `yaml:"sql,omitempty"`
 		// The following is format information
 		CSV *CSVConfig `yaml:"csv,omitempty"`
 	}
