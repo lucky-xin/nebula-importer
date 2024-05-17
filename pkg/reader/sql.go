@@ -86,6 +86,7 @@ func (r *sqlReader) Read() (n int, record spec.Record, err error) {
 	}
 	r.lastId = record[0]
 	r.index++
+	n = int(r.index)
 	return
 }
 
@@ -121,6 +122,5 @@ func (r *sqlReader) buildStatement(sqlSource *source.SqlSource) string {
 		statement += " AND " + sqlSource.Config().SQL.DbTable.PrimaryKey + " > '" + r.lastId + "'"
 	}
 	statement += " ORDER BY " + sqlSource.Config().SQL.DbTable.PrimaryKey + " ASC LIMIT " + fmt.Sprintf("%d", r.batchSize)
-	println(statement)
 	return statement
 }
