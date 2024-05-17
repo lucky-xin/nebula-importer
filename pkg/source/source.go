@@ -29,6 +29,8 @@ type (
 func New(c *Config) (Source, error) {
 	// TODO: support blob and so on
 	switch {
+	case c.SQL != nil:
+		return newSQLSource(c), nil
 	case c.S3 != nil:
 		return newS3Source(c), nil
 	case c.OSS != nil:

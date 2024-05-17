@@ -15,6 +15,10 @@ type (
 )
 
 func NewRecordReader(s source.Source) RecordReader {
-	// TODO: support other source formats
-	return NewCSVReader(s)
+	switch v := s.(type) {
+	case *source.SqlSource:
+		return NewSQLReader(v)
+	default:
+		return NewCSVReader(s)
+	}
 }

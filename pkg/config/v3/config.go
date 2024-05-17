@@ -114,3 +114,7 @@ func (c *Config) clientInitFunc(cli client.Client) error {
 	}
 	return nil
 }
+
+func (c *Config) GetSources() Sources {
+	return c.Sources
+}

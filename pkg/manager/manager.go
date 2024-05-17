@@ -161,9 +161,7 @@ func (m *defaultManager) Import(s source.Source, brr reader.BatchRecordReader, i
 	if len(importers) == 0 {
 		return nil
 	}
-
 	logSourceField := logger.Field{Key: "source", Value: s.Name()}
-
 	if err := s.Open(); err != nil {
 		err = errors.NewImportError(err, "manager: open import source failed").SetGraphName(m.graphName)
 		m.logError(err, "", logSourceField)
@@ -189,7 +187,7 @@ func (m *defaultManager) Import(s source.Source, brr reader.BatchRecordReader, i
 			i.Done() // Done 1 for finish, corresponds to start
 		}
 		m.readerWaitGroup.Done()
-		s.Close()
+		_ = s.Close()
 	}
 
 	go func() {
