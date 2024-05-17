@@ -50,6 +50,9 @@ func (s *SqlSource) Name() string {
 }
 
 func (s *SqlSource) Open() (err error) {
+	if s.Db != nil {
+		return
+	}
 	if s.c.SQL.UrlQuery == "" {
 		s.c.SQL.UrlQuery = "charset=utf8mb4&parseTime=true&loc=Local"
 	}
@@ -92,6 +95,12 @@ func (s *SqlSource) Config() *Config {
 }
 
 func (s *SqlSource) Size() (total int64, err error) {
+	if s.Db == nil {
+		err = s.Open()
+		if err != nil {
+			return
+		}
+	}
 	if s.size != nil {
 		total = *s.size
 		return
