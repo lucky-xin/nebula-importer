@@ -2,6 +2,7 @@ package source
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"time"
@@ -10,10 +11,10 @@ import (
 var _ Source = (*s3Source)(nil)
 
 type (
-	SqlConfig struct {
+	SQLConfig struct {
 		Endpoint         string   `yaml:"endpoint,omitempty"`
 		DbName           string   `yaml:"dbName,omitempty"`
-		DbTable          SqlTable `yaml:"dbTable"`
+		DbTable          SQLTable `yaml:"dbTable"`
 		Username         string   `yaml:"username,omitempty"`
 		Password         string   `yaml:"password,omitempty"`
 		UrlQuery         string   `yaml:"urlQuery,omitempty"`
@@ -24,35 +25,56 @@ type (
 		MaxIdleTimeMills int      `yaml:"maxIdleTimeMills,omitempty"`
 	}
 
-	SqlTable struct {
-		PrimaryKey string            `yaml:"primaryKey"`
+	SQLTable struct {
 		Name       string            `yaml:"name"`
+		PrimaryKey string            `yaml:"primaryKey"`
 		Fields     []string          `yaml:"fields"`
 		FieldMap   map[string]string `yaml:"fieldMap,omitempty"`
 		Filter     string            `yaml:"filter,omitempty"`
 	}
 
-	SqlSource struct {
-		c    *Config
-		size *int64
-		Db   *sql.DB
+	SQLSource struct {
+		c  *Config
+		Db *sql.DB
 	}
 )
 
 func newSQLSource(c *Config) Source {
-	return &SqlSource{
+	return &SQLSource{
 		c: c,
 	}
 }
 
-func (s *SqlSource) Name() string {
+func (s *SQLSource) Name() string {
 	return s.c.SQL.String()
 }
 
-func (s *SqlSource) Open() (err error) {
-	if s.Db != nil {
+func (s *SQLSource) Open() (err error) {
+	s.setDefaultConfig()
+	err = s.validate()
+	if err != nil {
 		return
 	}
+	conf := s.c.SQL
+	db, err := sql.Open(conf.DriverName,
+		fmt.Sprintf("%s:%s@tcp(%s)/%s?%s", conf.Username, conf.Password, conf.Endpoint, conf.DbName, conf.UrlQuery))
+	if err != nil {
+		return
+	}
+	db.SetMaxOpenConns(conf.MaxConnections)
+	db.SetMaxIdleConns(conf.MaxIdleConns)
+	// mysql default conn timeout=8h, should < mysql_timeout
+	db.SetConnMaxIdleTime(time.Duration(conf.MaxIdleTimeMills) * time.Millisecond)
+	db.SetConnMaxLifetime(time.Duration(conf.MaxLifetimeMills) * time.Millisecond)
+	err = db.Ping()
+	if err != nil {
+		return
+	}
+	s.Db = db
+	return
+}
+
+func (s *SQLSource) setDefaultConfig() {
 	if s.c.SQL.UrlQuery == "" {
 		s.c.SQL.UrlQuery = "charset=utf8mb4&parseTime=true&loc=Local"
 	}
@@ -71,40 +93,13 @@ func (s *SqlSource) Open() (err error) {
 	if s.c.SQL.MaxLifetimeMills == 0 {
 		s.c.SQL.MaxIdleTimeMills = 6000
 	}
-
-	db, err := sql.Open(s.c.SQL.DriverName,
-		fmt.Sprintf("%s:%s@tcp(%s)/%s?%s", s.c.SQL.Username, s.c.SQL.Password, s.c.SQL.Endpoint, s.c.SQL.DbName, s.c.SQL.UrlQuery))
-	if err != nil {
-		return
-	}
-	db.SetMaxOpenConns(s.c.SQL.MaxConnections)
-	db.SetMaxIdleConns(s.c.SQL.MaxIdleConns)
-	// mysql default conn timeout=8h, should < mysql_timeout
-	db.SetConnMaxIdleTime(time.Duration(s.c.SQL.MaxIdleTimeMills) * time.Millisecond)
-	db.SetConnMaxLifetime(time.Duration(s.c.SQL.MaxLifetimeMills) * time.Millisecond)
-	err = db.Ping()
-	if err != nil {
-		return
-	}
-	s.Db = db
-	return
 }
 
-func (s *SqlSource) Config() *Config {
+func (s *SQLSource) Config() *Config {
 	return s.c
 }
 
-func (s *SqlSource) Size() (total int64, err error) {
-	if s.Db == nil {
-		err = s.Open()
-		if err != nil {
-			return
-		}
-	}
-	if s.size != nil {
-		total = *s.size
-		return
-	}
+func (s *SQLSource) Size() (total int64, err error) {
 	totalSql := "SELECT count(1) total FROM " + s.Config().SQL.DbTable.Name + " WHERE 1 = 1"
 	if s.Config().SQL.DbTable.Filter != "" {
 		totalSql += " AND " + s.Config().SQL.DbTable.Filter
@@ -119,22 +114,29 @@ func (s *SqlSource) Size() (total int64, err error) {
 			return
 		}
 	}
-	s.size = &total
 	return
 }
 
-func (s *SqlSource) Read(p []byte) (int, error) {
+func (s *SQLSource) Read(p []byte) (int, error) {
 	return 2, nil
 }
 
-func (s *SqlSource) Close() error {
+func (s *SQLSource) Close() error {
 	return s.Db.Close()
 }
 
-func (s *SqlSource) String() string {
+func (s *SQLSource) String() string {
 	return s.c.SQL.String()
 }
 
-func (c *SqlConfig) String() string {
+func (s *SQLSource) validate() error {
+	c := s.Config().SQL
+	if c.DbTable.Fields[0] != c.DbTable.PrimaryKey {
+		return errors.New("primary key must be first field")
+	}
+	return nil
+}
+
+func (c *SQLConfig) String() string {
 	return fmt.Sprintf("sql %s/%s", c.Endpoint, c.DbTable.Name)
 }

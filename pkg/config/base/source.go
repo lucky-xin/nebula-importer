@@ -31,7 +31,9 @@ func (s *Source) BuildSourceAndReader(opts ...reader.Option) (
 		// Override the batch in the manager.
 		opts = append(opts, reader.WithBatch(s.Batch))
 	}
-
+	if ss, ok := src.(*source.SQLSource); ok {
+		return ss, reader.NewSQLBatchRecordReader(ss, opts...), nil
+	}
 	rr := reader.NewRecordReader(src)
 	brr := reader.NewBatchRecordReader(rr, opts...)
 	return src, brr, nil

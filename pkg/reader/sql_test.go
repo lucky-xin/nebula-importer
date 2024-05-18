@@ -8,13 +8,13 @@ import (
 
 func TestSQLSource(t *testing.T) {
 	c := &source.Config{
-		SQL: &source.SqlConfig{
+		SQL: &source.SQLConfig{
 			DriverName: "mysql",
-			Endpoint:   "gzv-dev-maria-1.piston.ink:3306",
-			DbName:     "pistonint_upms",
-			Username:   "pistonint_upms",
+			Endpoint:   "",
+			DbName:     "",
+			Username:   "",
 			Password:   "cCFzQHQkbyRuLmkubi50I0AhbXlzc6Ww",
-			DbTable: source.SqlTable{
+			DbTable: source.SQLTable{
 				PrimaryKey: "user_id",
 				Name:       "sys_user",
 				Fields: []string{
@@ -50,8 +50,9 @@ func TestSQLSource(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	reader := NewSQLReader(sou)
-	n, record, err := reader.Read()
+	reader := NewSQLBatchRecordReader(sou.(*source.SQLSource), WithBatch(10))
+	n, record, err := reader.ReadBatch()
+	n, record, err = reader.ReadBatch()
 	if err != nil {
 		t.Fatal(err)
 	}
