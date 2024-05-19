@@ -30,6 +30,9 @@ func New(c *Config) (Source, error) {
 	// TODO: support blob and so on
 	switch {
 	case c.SQL != nil:
+		c.
+			c.SQL.DbTable.Fields
+
 		return newSQLSource(c), nil
 	case c.S3 != nil:
 		return newS3Source(c), nil

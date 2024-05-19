@@ -42,7 +42,6 @@ func (m *Manager) BuildManager(
 		if err != nil {
 			return nil, err
 		}
-
 		importers, err := s.BuildImporters(m.GraphName, pool)
 		if err != nil {
 			return nil, err

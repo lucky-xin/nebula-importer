@@ -26,11 +26,10 @@ type (
 	}
 
 	SQLTable struct {
-		Name       string            `yaml:"name"`
-		PrimaryKey string            `yaml:"primaryKey"`
-		Fields     []string          `yaml:"fields"`
-		FieldMap   map[string]string `yaml:"fieldMap,omitempty"`
-		Filter     string            `yaml:"filter,omitempty"`
+		Name       string   `yaml:"name"`
+		PrimaryKey string   `yaml:"primaryKey"`
+		Fields     []string `yaml:"fields"`
+		Filter     string   `yaml:"filter,omitempty"`
 	}
 
 	SQLSource struct {
