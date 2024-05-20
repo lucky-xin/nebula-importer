@@ -8,6 +8,7 @@ import (
 	"github.com/lucky-xin/nebula-importer/pkg/logger"
 	"github.com/lucky-xin/nebula-importer/pkg/source"
 	"github.com/lucky-xin/nebula-importer/pkg/spec"
+	"io"
 	"strings"
 )
 
@@ -133,7 +134,6 @@ func (r *sqlBatchReader) ReadBatch() (int, spec.Records, error) {
 		for i := range values {
 			values[i] = &sql.NullString{}
 		}
-
 		err = rows.Scan(values...)
 		if err != nil {
 			if ce := new(continueError); stderrors.As(err, &ce) {
@@ -153,11 +153,15 @@ func (r *sqlBatchReader) ReadBatch() (int, spec.Records, error) {
 		}
 		records = append(records, vals)
 	}
-	n := len(records)
-	r.lastId = records[n-1][0]
 	defer func(rows *sql.Rows) {
 		_ = rows.Close()
 	}(rows)
+
+	n := len(records)
+	if n == 0 {
+		return 0, nil, io.EOF
+	}
+	r.lastId = records[n-1][0]
 	return n, records, nil
 }
 
