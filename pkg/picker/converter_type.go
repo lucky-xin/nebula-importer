@@ -86,7 +86,7 @@ func NewTypeConverter(t string) (Converter, error) {
 			Name: "TIME",
 		}, nil
 	case "DATETIME":
-		return TypeDatetimeConverter{
+		return FunctionDateTimeConverter{
 			Name: "DATETIME",
 		}, nil
 	case "TIMESTAMP":
