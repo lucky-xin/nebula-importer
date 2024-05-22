@@ -27,19 +27,19 @@ var (
 type (
 	TypeBoolConverter = NonConverter
 
-	TypeIntConverter = NonConverter
+	TypeIntConverter = FunctionIntConverter
 
-	TypeFloatConverter = NonConverter
+	TypeFloatConverter = FunctionFloatConverter
 
-	TypeDoubleConverter = NonConverter
+	TypeDoubleConverter = FunctionDoubleConverter
 
 	TypeStringConverter struct{}
 
-	TypeDateConverter = FunctionStringConverter
+	TypeDateConverter = FunctionDateConverter
 
-	TypeTimeConverter = FunctionStringConverter
+	TypeTimeConverter = FunctionTimeConverter
 
-	TypeDatetimeConverter = FunctionStringConverter
+	TypeDatetimeConverter = FunctionDateTimeConverter
 
 	TypeTimestampConverter struct {
 		fc  FunctionConverter
@@ -82,11 +82,11 @@ func NewTypeConverter(t string) (Converter, error) {
 			Name: "DATE",
 		}, nil
 	case "TIME":
-		return FunctionTimeConverter{
+		return TypeTimeConverter{
 			Name: "TIME",
 		}, nil
 	case "DATETIME":
-		return FunctionDateTimeConverter{
+		return TypeDatetimeConverter{
 			Name: "DATETIME",
 		}, nil
 	case "TIMESTAMP":
