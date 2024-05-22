@@ -25,7 +25,7 @@ var (
 )
 
 type (
-	TypeBoolConverter = NonConverter
+	TypeBoolConverter = FunctionBoolConverter
 
 	TypeIntConverter = FunctionIntConverter
 
@@ -33,7 +33,8 @@ type (
 
 	TypeDoubleConverter = FunctionDoubleConverter
 
-	TypeStringConverter struct{}
+	TypeStringConverter struct {
+	}
 
 	TypeDateConverter = FunctionDateConverter
 
