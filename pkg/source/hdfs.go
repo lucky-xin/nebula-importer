@@ -23,16 +23,16 @@ var (
 
 type (
 	HDFSConfig struct {
-		Address                string `yaml:"address,omitempty"`
-		User                   string `yaml:"user,omitempty"`
-		ServicePrincipalName   string `yaml:"servicePrincipalName,omitempty"`
-		Krb5ConfigFile         string `yaml:"krb5ConfigFile,omitempty"`
-		CCacheFile             string `yaml:"ccacheFile,omitempty"`
-		KeyTabFile             string `yaml:"keyTabFile,omitempty"`
-		Password               string `yaml:"password,omitempty"`
-		DataTransferProtection string `yaml:"dataTransferProtection,omitempty"`
-		DisablePAFXFAST        bool   `yaml:"disablePAFXFAST,omitempty"`
-		Path                   string `yaml:"path,omitempty"`
+		Address                string `yaml:"address,omitempty" json:"address,omitempty,optional"`
+		User                   string `yaml:"user,omitempty" json:"user,omitempty,optional"`
+		ServicePrincipalName   string `yaml:"servicePrincipalName,omitempty" json:"servicePrincipalName,omitempty,optional"`
+		Krb5ConfigFile         string `yaml:"krb5ConfigFile,omitempty" json:"krb5ConfigFile,omitempty,optional"`
+		CCacheFile             string `yaml:"ccacheFile,omitempty" json:"ccacheFile,omitempty,optional"`
+		KeyTabFile             string `yaml:"keyTabFile,omitempty" json:"keyTabFile,omitempty,optional"`
+		Password               string `yaml:"password,omitempty" json:"password,omitempty,optional"`
+		DataTransferProtection string `yaml:"dataTransferProtection,omitempty" json:"dataTransferProtection,omitempty,optional"`
+		DisablePAFXFAST        bool   `yaml:"disablePAFXFAST,omitempty" json:"disablePAFXFAST,omitempty,optional"`
+		Path                   string `yaml:"path,omitempty" json:"path,omitempty,optional"`
 	}
 
 	hdfsSource struct {

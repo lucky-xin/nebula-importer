@@ -8,13 +8,13 @@ import (
 
 type (
 	Prop struct {
-		Name               string    `yaml:"name"`
-		Type               ValueType `yaml:"type"`
-		Index              int       `yaml:"index"`
-		Nullable           bool      `yaml:"nullable"`
-		NullValue          string    `yaml:"nullValue"`
-		AlternativeIndices []int     `yaml:"alternativeIndices,omitempty"`
-		DefaultValue       *string   `yaml:"defaultValue"`
+		Name               string    `yaml:"name" json:"name"`
+		Type               ValueType `yaml:"type" json:"type"`
+		Index              int       `yaml:"index" json:"index"`
+		Nullable           bool      `yaml:"nullable" json:"nullable,omitempty,optional,default=false"`
+		NullValue          string    `yaml:"nullValue" json:"nullValue,omitempty,optional"`
+		AlternativeIndices []int     `yaml:"alternativeIndices,omitempty" json:"alternativeIndices,omitempty,optional"`
+		DefaultValue       *string   `yaml:"defaultValue" json:"defaultValue,omitempty,optional"`
 
 		convertedName string
 		picker        picker.Picker

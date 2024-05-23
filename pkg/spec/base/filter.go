@@ -6,7 +6,7 @@ import (
 )
 
 type Filter struct {
-	Expr    string `yaml:"expr,omitempty"`
+	Expr    string `yaml:"expr,omitempty" json:"expr,omitempty"`
 	program *vm.Program
 }
 

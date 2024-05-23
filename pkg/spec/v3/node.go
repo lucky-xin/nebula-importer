@@ -13,15 +13,15 @@ import (
 type (
 	// Node is VERTEX in 3.x
 	Node struct {
-		Name  string  `yaml:"name"`
-		ID    *NodeID `yaml:"id"`
-		Props Props   `yaml:"props,omitempty"`
+		Name  string  `yaml:"name" json:"name"`
+		ID    *NodeID `yaml:"id" json:"id"`
+		Props Props   `yaml:"props,omitempty" json:"props,omitempty,optional"`
 
-		IgnoreExistedIndex *bool `yaml:"ignoreExistedIndex,omitempty"`
+		IgnoreExistedIndex *bool `yaml:"ignoreExistedIndex,omitempty" json:"ignoreExistedIndex,omitempty,default=false"`
 
-		Filter *specbase.Filter `yaml:"filter,omitempty"`
+		Filter *specbase.Filter `yaml:"filter,omitempty" json:"filter,omitempty,optional"`
 
-		Mode specbase.Mode `yaml:"mode,omitempty"`
+		Mode specbase.Mode `yaml:"mode,omitempty" json:"mode,omitempty,default=insert"`
 
 		fnStatement func(records ...Record) (string, int, error)
 		// "INSERT VERTEX name(prop_name, ..., prop_name) VALUES "

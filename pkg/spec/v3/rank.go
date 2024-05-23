@@ -7,7 +7,7 @@ import (
 
 type (
 	Rank struct {
-		Index int `yaml:"index"`
+		Index int `yaml:"index" json:"index"`
 
 		picker picker.Picker
 	}

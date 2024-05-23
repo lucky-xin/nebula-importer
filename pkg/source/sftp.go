@@ -13,14 +13,14 @@ var _ Source = (*sftpSource)(nil)
 
 type (
 	SFTPConfig struct {
-		Host       string `yaml:"host,omitempty"`
-		Port       int    `yaml:"port,omitempty"`
-		User       string `yaml:"user,omitempty"`
-		Password   string `yaml:"password,omitempty"`
-		KeyFile    string `yaml:"keyFile,omitempty"`
-		KeyData    string `yaml:"keyData,omitempty"`
-		Passphrase string `yaml:"passphrase,omitempty"`
-		Path       string `yaml:"path,omitempty"`
+		Host       string `yaml:"host,omitempty" json:"host,omitempty,optional"`
+		Port       int    `yaml:"port,omitempty" json:"port,omitempty,optional"`
+		User       string `yaml:"user,omitempty" json:"user,omitempty,optional"`
+		Password   string `yaml:"password,omitempty" json:"password,omitempty,optional"`
+		KeyFile    string `yaml:"keyFile,omitempty" json:"keyFile,omitempty,optional"`
+		KeyData    string `yaml:"keyData,omitempty" json:"keyData,omitempty,optional"`
+		Passphrase string `yaml:"passphrase,omitempty" json:"passphrase,omitempty,optional"`
+		Path       string `yaml:"path,omitempty" json:"path,omitempty,optional"`
 	}
 
 	sftpSource struct {

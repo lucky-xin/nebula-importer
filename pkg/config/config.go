@@ -25,8 +25,8 @@ func FromBytes(content []byte) (Configurator, error) {
 
 	type tmpConfig struct {
 		Client struct {
-			Version string `yaml:"version"`
-		} `yaml:"client"`
+			Version string `yaml:"version" json:"version"`
+		} `yaml:"client" json:"client"`
 	}
 	var tc tmpConfig
 	if err := yaml.Unmarshal(content, &tc); err != nil {

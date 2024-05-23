@@ -12,17 +12,17 @@ import (
 
 type (
 	Edge struct {
-		Name  string       `yaml:"name"`
-		Src   *EdgeNodeRef `yaml:"src"`
-		Dst   *EdgeNodeRef `yaml:"dst"`
-		Rank  *Rank        `yaml:"rank,omitempty"`
-		Props Props        `yaml:"props,omitempty"`
+		Name  string       `yaml:"name" json:"name"`
+		Src   *EdgeNodeRef `yaml:"src" json:"src"`
+		Dst   *EdgeNodeRef `yaml:"dst" json:"dst"`
+		Rank  *Rank        `yaml:"rank,omitempty" json:"rank,omitempty,optional"`
+		Props Props        `yaml:"props,omitempty" json:"props,omitempty,optional"`
 
-		IgnoreExistedIndex *bool `yaml:"ignoreExistedIndex,omitempty"`
+		IgnoreExistedIndex *bool `yaml:"ignoreExistedIndex,omitempty" json:"ignoreExistedIndex,omitempty,optional,default=false"`
 
-		Filter *specbase.Filter `yaml:"filter,omitempty"`
+		Filter *specbase.Filter `yaml:"filter,omitempty" json:"filter,omitempty,optional"`
 
-		Mode specbase.Mode `yaml:"mode,omitempty"`
+		Mode specbase.Mode `yaml:"mode,omitempty" json:"mode,omitempty,optional,default=insert"`
 
 		fnStatement func(records ...Record) (string, int, error)
 		// "INSERT EDGE name(prop_name, ..., prop_name) VALUES "
@@ -32,8 +32,8 @@ type (
 	}
 
 	EdgeNodeRef struct {
-		Name string  `yaml:"-"`
-		ID   *NodeID `yaml:"id"`
+		Name string  `yaml:"-" json:"-"`
+		ID   *NodeID `yaml:"id" json:"id"`
 	}
 
 	Edges []*Edge

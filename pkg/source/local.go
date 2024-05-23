@@ -13,7 +13,7 @@ var (
 
 type (
 	LocalConfig struct {
-		Path string `yaml:"path,omitempty"`
+		Path string `yaml:"path,omitempty" json:"path,omitempty,optional"`
 	}
 
 	localSource struct {

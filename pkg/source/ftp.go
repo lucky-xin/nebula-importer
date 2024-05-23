@@ -11,11 +11,11 @@ var _ Source = (*ftpSource)(nil)
 
 type (
 	FTPConfig struct {
-		Host     string `yaml:"host,omitempty"`
-		Port     int    `yaml:"port,omitempty"`
-		User     string `yaml:"user,omitempty"`
-		Password string `yaml:"password,omitempty"`
-		Path     string `yaml:"path,omitempty"`
+		Host     string `yaml:"host,omitempty" json:"host,omitempty,optional"`
+		Port     int    `yaml:"port,omitempty" json:"port,omitempty,optional"`
+		User     string `yaml:"user,omitempty" json:"user,omitempty,optional"`
+		Password string `yaml:"password,omitempty" json:"password,omitempty,optional"`
+		Path     string `yaml:"path,omitempty" json:"path,omitempty,optional"`
 	}
 
 	ftpSource struct {

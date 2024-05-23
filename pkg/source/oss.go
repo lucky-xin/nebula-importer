@@ -13,11 +13,11 @@ var _ Source = (*ossSource)(nil)
 
 type (
 	OSSConfig struct {
-		Endpoint        string `yaml:"endpoint,omitempty"`
-		AccessKeyID     string `yaml:"accessKeyID,omitempty"`
-		AccessKeySecret string `yaml:"accessKeySecret,omitempty"`
-		Bucket          string `yaml:"bucket,omitempty"`
-		Key             string `yaml:"key,omitempty"`
+		Endpoint        string `yaml:"endpoint,omitempty" json:"endpoint,omitempty,optional"`
+		AccessKeyID     string `yaml:"accessKeyID,omitempty" json:"accessKeyID,omitempty,optional"`
+		AccessKeySecret string `yaml:"accessKeySecret,omitempty" json:"accessKeySecret,omitempty,optional"`
+		Bucket          string `yaml:"bucket,omitempty" json:"bucket,omitempty,optional"`
+		Key             string `yaml:"key,omitempty" json:"key,omitempty,optional"`
 	}
 
 	ossSource struct {

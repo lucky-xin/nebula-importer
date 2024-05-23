@@ -12,8 +12,8 @@ var sourceNew = source.New
 
 type (
 	Source struct {
-		SourceConfig source.Config `yaml:",inline"`
-		Batch        int           `yaml:"batch,omitempty"`
+		SourceConfig source.Config `yaml:",inline" json:",inline"`
+		Batch        int           `yaml:"batch,omitempty" json:"batch,omitempty,optional"`
 	}
 )
 

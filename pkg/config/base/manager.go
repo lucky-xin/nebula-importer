@@ -8,10 +8,10 @@ import (
 
 type (
 	Manager struct {
-		Batch               int           `yaml:"batch,omitempty"`
-		ReaderConcurrency   int           `yaml:"readerConcurrency,omitempty"`
-		ImporterConcurrency int           `yaml:"importerConcurrency,omitempty"`
-		StatsInterval       time.Duration `yaml:"statsInterval,omitempty"`
-		Hooks               manager.Hooks `yaml:"hooks,omitempty"`
+		Batch               int           `yaml:"batch,omitempty" json:"batch,omitempty,optional"`
+		ReaderConcurrency   int           `yaml:"readerConcurrency,omitempty" json:"readerConcurrency,omitempty,optional"`
+		ImporterConcurrency int           `yaml:"importerConcurrency,omitempty" json:"importerConcurrency,omitempty,optional"`
+		StatsInterval       time.Duration `yaml:"statsInterval,omitempty" json:"statsInterval,omitempty,optional"`
+		Hooks               manager.Hooks `yaml:"hooks,omitempty" json:"hooks,omitempty,optional"`
 	}
 )

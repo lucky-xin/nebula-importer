@@ -12,24 +12,24 @@ var _ Source = (*s3Source)(nil)
 
 type (
 	SQLConfig struct {
-		Endpoint         string   `yaml:"endpoint,omitempty"`
-		DbName           string   `yaml:"dbName,omitempty"`
-		DbTable          SQLTable `yaml:"dbTable"`
-		Username         string   `yaml:"username,omitempty"`
-		Password         string   `yaml:"password,omitempty"`
-		UrlQuery         string   `yaml:"urlQuery,omitempty"`
-		DriverName       string   `yaml:"driverName,omitempty"`
-		MaxConnections   int      `yaml:"maxConnections,omitempty"`
-		MaxIdleConns     int      `yaml:"maxIdleConns,omitempty"`
-		MaxLifetimeMills int      `yaml:"maxLifetimeMills,omitempty"`
-		MaxIdleTimeMills int      `yaml:"maxIdleTimeMills,omitempty"`
+		Endpoint         string   `yaml:"endpoint,omitempty" json:"endpoint"`
+		DbName           string   `yaml:"dbName,omitempty" json:"dbName"`
+		DbTable          SQLTable `yaml:"dbTable" json:"dbTable"`
+		Username         string   `yaml:"username,omitempty" json:"username"`
+		Password         string   `yaml:"password,omitempty" json:"password"`
+		UrlQuery         string   `yaml:"urlQuery,omitempty" json:"urlQuery,omitempty,optional"`
+		DriverName       string   `yaml:"driverName,omitempty" json:"driverName,omitempty,optional,default=mysql"`
+		MaxConnections   int      `yaml:"maxConnections,omitempty" json:"maxConnections,omitempty,optional,default=2000"`
+		MaxIdleConns     int      `yaml:"maxIdleConns,omitempty" json:"maxIdleConns,omitempty,optional,default=50"`
+		MaxLifetimeMills int      `yaml:"maxLifetimeMills,omitempty" json:"maxLifetimeMills,omitempty,optional,default=3600000"`
+		MaxIdleTimeMills int      `yaml:"maxIdleTimeMills,omitempty" json:"maxIdleTimeMills,omitempty,optional,default=600000"`
 	}
 
 	SQLTable struct {
-		Name       string   `yaml:"name"`
-		PrimaryKey string   `yaml:"primaryKey"`
-		Fields     []string `yaml:"fields"`
-		Filter     string   `yaml:"filter,omitempty"`
+		Name       string   `yaml:"name" json:"name"`
+		PrimaryKey string   `yaml:"primaryKey" json:"primaryKey"`
+		Fields     []string `yaml:"fields" json:"fields"`
+		Filter     string   `yaml:"filter,omitempty" json:"filter,omitempty,optional"`
 	}
 
 	SQLSource struct {

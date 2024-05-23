@@ -14,13 +14,13 @@ var _ Source = (*s3Source)(nil)
 
 type (
 	S3Config struct {
-		Endpoint        string `yaml:"endpoint,omitempty"`
-		Region          string `yaml:"region,omitempty"`
-		AccessKeyID     string `yaml:"accessKeyID,omitempty"`
-		AccessKeySecret string `yaml:"accessKeySecret,omitempty"`
-		Token           string `yaml:"token,omitempty"`
-		Bucket          string `yaml:"bucket,omitempty"`
-		Key             string `yaml:"key,omitempty"`
+		Endpoint        string `yaml:"endpoint,omitempty" json:"endpoint,omitempty,optional"`
+		Region          string `yaml:"region,omitempty" json:"region,omitempty,optional"`
+		AccessKeyID     string `yaml:"accessKeyID,omitempty" json:"accessKeyID,omitempty,optional"`
+		AccessKeySecret string `yaml:"accessKeySecret,omitempty" json:"accessKeySecret,omitempty,optional"`
+		Token           string `yaml:"token,omitempty" json:"token,omitempty,optional"`
+		Bucket          string `yaml:"bucket,omitempty" json:"bucket,omitempty,optional"`
+		Key             string `yaml:"key,omitempty" json:"key,omitempty,optional"`
 	}
 
 	s3Source struct {

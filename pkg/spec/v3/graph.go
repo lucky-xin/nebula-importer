@@ -7,9 +7,9 @@ import (
 
 type (
 	Graph struct {
-		Name  string `yaml:"name"`
-		Nodes Nodes  `yaml:"tags,omitempty"`
-		Edges Edges  `yaml:"edges,omitempty"`
+		Name  string `yaml:"name" json:"name"`
+		Nodes Nodes  `yaml:"tags,omitempty" json:"tags,omitempty,optional"`
+		Edges Edges  `yaml:"edges,omitempty" json:"edges,omitempty,optional"`
 	}
 
 	GraphOption func(*Graph)

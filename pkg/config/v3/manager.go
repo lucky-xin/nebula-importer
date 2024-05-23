@@ -10,8 +10,8 @@ import (
 
 type (
 	Manager struct {
-		GraphName          string `yaml:"spaceName"`
-		configbase.Manager `yaml:",inline"`
+		GraphName          string `yaml:"spaceName" json:"spaceName"`
+		configbase.Manager `yaml:",inline" json:",inline"`
 	}
 )
 

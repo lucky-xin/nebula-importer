@@ -13,12 +13,12 @@ var _ Source = (*gcsSource)(nil)
 
 type (
 	GCSConfig struct {
-		Endpoint              string `yaml:"endpoint,omitempty"`
-		CredentialsFile       string `yaml:"credentialsFile,omitempty"`
-		CredentialsJSON       string `yaml:"credentialsJSON,omitempty"`
-		WithoutAuthentication bool   `yaml:"withoutAuthentication,omitempty"`
-		Bucket                string `yaml:"bucket,omitempty"`
-		Key                   string `yaml:"key,omitempty"`
+		Endpoint              string `yaml:"endpoint,omitempty" json:"endpoint,omitempty,optional"`
+		CredentialsFile       string `yaml:"credentialsFile,omitempty" json:"credentialsFile,omitempty,optional"`
+		CredentialsJSON       string `yaml:"credentialsJSON,omitempty" json:"credentialsJSON,omitempty,optional"`
+		WithoutAuthentication bool   `yaml:"withoutAuthentication,omitempty" json:"withoutAuthentication,omitempty,optional"`
+		Bucket                string `yaml:"bucket,omitempty" json:"bucket,omitempty,optional"`
+		Key                   string `yaml:"key,omitempty" json:"key,omitempty,optional"`
 	}
 
 	gcsSource struct {

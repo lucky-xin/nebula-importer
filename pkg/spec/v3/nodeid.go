@@ -14,11 +14,11 @@ var supportedNodeIDFunctions = map[string]struct{}{
 type (
 	// NodeID is the VID in 3.x
 	NodeID struct {
-		Name        string        `yaml:"-"`
-		Type        ValueType     `yaml:"type"`
-		Index       int           `yaml:"index"`
-		ConcatItems []interface{} `yaml:"concatItems,omitempty"` // only support string and int, string for constant, int is for Index
-		Function    *string       `yaml:"function"`
+		Name        string        `yaml:"-" json:"-"`
+		Type        ValueType     `yaml:"type" json:"type"`
+		Index       int           `yaml:"index" json:"index"`
+		ConcatItems []interface{} `yaml:"concatItems,omitempty" json:"concatItems,omitempty,optional"` // only support string and int, string for constant, int is for Index
+		Function    *string       `yaml:"function" json:"function,omitempty,optional"`
 
 		picker picker.Picker
 	}
