@@ -21,7 +21,7 @@ var _ = Describe("Config", func() {
 				Sources: Sources{
 					Source{
 						Source: configbase.Source{
-							SourceConfig: source.Config{
+							Config: source.Config{
 								Local: &source.LocalConfig{
 									Path: "[a-b",
 								},
@@ -38,7 +38,7 @@ var _ = Describe("Config", func() {
 				Sources: Sources{
 					Source{
 						Source: configbase.Source{
-							SourceConfig: source.Config{
+							Config: source.Config{
 								Local: &source.LocalConfig{
 									Path: filepath.Join("testdata", "file*"),
 								},
@@ -61,7 +61,7 @@ var _ = Describe("Config", func() {
 				Sources: Sources{
 					{
 						Source: configbase.Source{
-							SourceConfig: source.Config{
+							Config: source.Config{
 								Local: &source.LocalConfig{
 									Path: filepath.Join("testdata", "file10"),
 								},

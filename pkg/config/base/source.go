@@ -12,10 +12,10 @@ var sourceNew = source.New
 
 type (
 	Source struct {
-		SourceConfig      source.Config `yaml:",inline" json:",inline"`
-		Batch             int           `yaml:"batch,omitempty" json:"batch,omitempty,optional,default=200"`
-		DatasourceId      *string       `yaml:"datasourceId,omitempty" json:"datasourceId,optional,omitempty"`
-		DatasourceKeyFile *string       `yaml:"datasourceKeyFile,omitempty" json:"datasourceKeyFile,optional,omitempty"`
+		source.Config     `yaml:",inline" json:",inline"`
+		Batch             int     `yaml:"batch,omitempty" json:"batch,omitempty,optional,default=200"`
+		DatasourceId      *string `yaml:"datasourceId,omitempty" json:"datasourceId,optional,omitempty"`
+		DatasourceKeyFile *string `yaml:"datasourceKeyFile,omitempty" json:"datasourceKeyFile,optional,omitempty"`
 	}
 )
 
@@ -24,7 +24,7 @@ func (s *Source) BuildSourceAndReader(opts ...reader.Option) (
 	reader.BatchRecordReader,
 	error,
 ) {
-	sourceConfig := s.SourceConfig
+	sourceConfig := s.Config
 	src, err := sourceNew(&sourceConfig)
 	if err != nil {
 		return nil, nil, err
@@ -42,7 +42,7 @@ func (s *Source) BuildSourceAndReader(opts ...reader.Option) (
 }
 
 func (s *Source) Glob() ([]*Source, bool, error) {
-	sourceConfig := s.SourceConfig
+	sourceConfig := s.Config
 	src, err := sourceNew(&sourceConfig)
 	if err != nil {
 		return nil, false, err
@@ -53,7 +53,9 @@ func (s *Source) Glob() ([]*Source, bool, error) {
 		// Do not support glob.
 		return nil, false, nil
 	}
-	defer src.Close()
+	defer func(src source.Source) {
+		_ = src.Close()
+	}(src)
 
 	cs, err := g.Glob()
 	if err != nil {
@@ -68,9 +70,8 @@ func (s *Source) Glob() ([]*Source, bool, error) {
 	for _, c := range cs {
 		cpy := *s
 		cpySourceConfig := c.Clone()
-		cpy.SourceConfig = *cpySourceConfig
+		cpy.Config = *cpySourceConfig
 		ss = append(ss, &cpy)
 	}
-
 	return ss, true, nil
 }

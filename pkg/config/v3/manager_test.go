@@ -22,7 +22,7 @@ var _ = Describe("Manager", func() {
 				Sources: Sources{
 					{
 						Source: configbase.Source{
-							SourceConfig: source.Config{
+							Config: source.Config{
 								Local: &source.LocalConfig{
 									Path: filepath.Join("testdata", "file10"),
 								},
@@ -49,7 +49,7 @@ var _ = Describe("Manager", func() {
 		})
 
 		It("Importer failed", func() {
-			c.Sources[0].SourceConfig.Local.Path = filepath.Join("testdata", "not-exists.csv")
+			c.Sources[0].Config.Local.Path = filepath.Join("testdata", "not-exists.csv")
 			Expect(c.Build()).To(HaveOccurred())
 		})
 

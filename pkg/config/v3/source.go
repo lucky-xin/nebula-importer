@@ -65,8 +65,8 @@ func (s *Source) BuildImporters(graphName string, pool client.Pool) ([]importer.
 func (ss Sources) OptimizePath(configPath string) error {
 	configPathDir := filepath.Dir(configPath)
 	for i := range ss {
-		if ss[i].SourceConfig.Local != nil {
-			ss[i].SourceConfig.Local.Path = utils.RelativePathBaseOn(configPathDir, ss[i].SourceConfig.Local.Path)
+		if ss[i].Local != nil {
+			ss[i].Local.Path = utils.RelativePathBaseOn(configPathDir, ss[i].Local.Path)
 		}
 	}
 	return nil

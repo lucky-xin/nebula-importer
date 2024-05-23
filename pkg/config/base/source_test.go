@@ -24,15 +24,13 @@ var _ = Describe("Source", func() {
 			mockSource = source.NewMockSource(ctrl)
 			patches = gomonkey.NewPatches()
 			s = &Source{
-				SourceConfig: source.Config{
-					Local: &source.LocalConfig{
-						Path: "path",
-					},
-					CSV: &source.CSVConfig{
-						Delimiter: ",",
-					},
-				},
 				Batch: 7,
+			}
+			s.Local = &source.LocalConfig{
+				Path: "path",
+			}
+			s.CSV = &source.CSVConfig{
+				Delimiter: ",",
 			}
 		})
 		AfterEach(func() {
@@ -45,7 +43,7 @@ var _ = Describe("Source", func() {
 			})
 
 			mockSource.EXPECT().Name().AnyTimes().Return("source name")
-			mockSource.EXPECT().Config().AnyTimes().Return(&s.SourceConfig)
+			mockSource.EXPECT().Config().AnyTimes().Return(s.Config)
 			mockSource.EXPECT().Read(gomock.Any()).AnyTimes().DoAndReturn(func(p []byte) (int, error) {
 				n := copy(p, "a,b,c\n")
 				return n, nil
@@ -87,15 +85,13 @@ var _ = Describe("Source", func() {
 			mockGlobber = source.NewMockGlobber(ctrl)
 			patches = gomonkey.NewPatches()
 			s = &Source{
-				SourceConfig: source.Config{
-					Local: &source.LocalConfig{
-						Path: "path*",
-					},
-					CSV: &source.CSVConfig{
-						Delimiter: ",",
-					},
-				},
 				Batch: 7,
+			}
+			s.Local = &source.LocalConfig{
+				Path: "path*",
+			}
+			s.CSV = &source.CSVConfig{
+				Delimiter: ",",
 			}
 		})
 		AfterEach(func() {
@@ -195,30 +191,25 @@ var _ = Describe("Source", func() {
 			ss, isSupportGlob, err := s.Glob()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(isSupportGlob).To(Equal(true))
-			Expect(ss).To(Equal([]*Source{
-				{
-					SourceConfig: source.Config{
-						Local: &source.LocalConfig{
-							Path: "path1",
-						},
-						CSV: &source.CSVConfig{
-							Delimiter: ",",
-						},
-					},
-					Batch: 7,
-				},
-				{
-					SourceConfig: source.Config{
-						Local: &source.LocalConfig{
-							Path: "path2",
-						},
-						CSV: &source.CSVConfig{
-							Delimiter: ",",
-						},
-					},
-					Batch: 7,
-				},
-			}))
+			s1 := &Source{
+				Batch: 7,
+			}
+			s1.Local = &source.LocalConfig{
+				Path: "path1",
+			}
+			s1.CSV = &source.CSVConfig{
+				Delimiter: ",",
+			}
+			s2 := &Source{
+				Batch: 7,
+			}
+			s2.Local = &source.LocalConfig{
+				Path: "path2",
+			}
+			s2.CSV = &source.CSVConfig{
+				Delimiter: ",",
+			}
+			Expect(ss).To(Equal([]*Source{s1, s2}))
 		})
 	})
 })
