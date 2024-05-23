@@ -2,8 +2,8 @@ package logger
 
 type (
 	Field struct {
-		Key   string      `yaml:"key"`
-		Value interface{} `yaml:"value"`
+		Key   string      `yaml:"key" json:"key"`
+		Value interface{} `yaml:"value" json:"value"`
 	}
 
 	Fields []Field

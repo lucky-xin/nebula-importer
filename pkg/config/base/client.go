@@ -27,8 +27,8 @@ type (
 		Password                 string        `yaml:"password,omitempty" json:"password,omitempty,optional"`
 		ConcurrencyPerAddress    int           `yaml:"concurrencyPerAddress,omitempty" json:"concurrencyPerAddress,omitempty,optional"`
 		ReconnectInitialInterval time.Duration `yaml:"reconnectInitialInterval,omitempty" json:"reconnectInitialInterval,omitempty,optional"`
-		Retry                    int           `yaml:"retry,omitempty" json:"retry,omitempty,optional"`
-		RetryInitialInterval     time.Duration `yaml:"retryInitialInterval,omitempty" json:"retryInitialInterval,omitempty,optional"`
+		Retry                    int           `yaml:"retry,omitempty" json:"retry,omitempty,optional,default=3"`
+		RetryInitialInterval     time.Duration `yaml:"retryInitialInterval,omitempty" json:"retryInitialInterval,omitempty,optional,default=200"`
 		SSL                      *SSL          `yaml:"ssl,omitempty" json:"ssl,omitempty,optional"`
 	}
 
@@ -36,7 +36,7 @@ type (
 		Enable             bool   `yaml:"enable,omitempty" json:"enable,omitempty,optional"`
 		CertPath           string `yaml:"certPath,omitempty" json:"certPath,omitempty,optional"`
 		KeyPath            string `yaml:"keyPath,omitempty" json:"keyPath,omitempty,optional"`
-		CAPath             string `yaml:"caPath,omitempty" json:"ca_path,omitempty,optional"`
+		CAPath             string `yaml:"caPath,omitempty" json:"caPath,omitempty,optional"`
 		InsecureSkipVerify bool   `yaml:"insecureSkipVerify,omitempty" json:"insecureSkipVerify,omitempty,optional"`
 	}
 )
