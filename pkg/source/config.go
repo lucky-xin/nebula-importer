@@ -2,7 +2,7 @@ package source
 
 type (
 	Config struct {
-		Local *LocalConfig `yaml:",inline" json:",inline"`
+		Local *LocalConfig `yaml:",inline" json:",inline,omitempty,optional"`
 		S3    *S3Config    `yaml:"s3,omitempty" json:"s3,omitempty,optional"`
 		OSS   *OSSConfig   `yaml:"oss,omitempty" json:"oss,omitempty,optional"`
 		FTP   *FTPConfig   `yaml:"ftp,omitempty" json:"ftp,omitempty,optional"`

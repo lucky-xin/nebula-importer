@@ -13,7 +13,7 @@ var sourceNew = source.New
 type (
 	Source struct {
 		SourceConfig      source.Config `yaml:",inline" json:",inline"`
-		Batch             int           `yaml:"batch,omitempty" json:"batch,omitempty,optional"`
+		Batch             int           `yaml:"batch,omitempty" json:"batch,omitempty,optional,default=200"`
 		DatasourceId      *string       `yaml:"datasourceId,omitempty" json:"datasourceId,optional,omitempty"`
 		DatasourceKeyFile *string       `yaml:"datasourceKeyFile,omitempty" json:"datasourceKeyFile,optional,omitempty"`
 	}

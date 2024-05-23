@@ -21,14 +21,14 @@ const (
 
 type (
 	Client struct {
-		Version                  string        `yaml:"version" json:"version"`
+		Version                  string        `yaml:"version" json:"version,omitempty,optional,default=v3"`
 		Address                  string        `yaml:"address" json:"address"`
 		User                     string        `yaml:"user,omitempty" json:"user,omitempty,optional"`
 		Password                 string        `yaml:"password,omitempty" json:"password,omitempty,optional"`
 		ConcurrencyPerAddress    int           `yaml:"concurrencyPerAddress,omitempty" json:"concurrencyPerAddress,omitempty,optional"`
-		ReconnectInitialInterval time.Duration `yaml:"reconnectInitialInterval,omitempty" json:"reconnectInitialInterval,omitempty,optional"`
+		ReconnectInitialInterval time.Duration `yaml:"reconnectInitialInterval,omitempty" json:"reconnectInitialInterval,omitempty,optional,default=5s"`
 		Retry                    int           `yaml:"retry,omitempty" json:"retry,omitempty,optional,default=3"`
-		RetryInitialInterval     time.Duration `yaml:"retryInitialInterval,omitempty" json:"retryInitialInterval,omitempty,optional,default=200"`
+		RetryInitialInterval     time.Duration `yaml:"retryInitialInterval,omitempty" json:"retryInitialInterval,omitempty,optional,default=5s"`
 		SSL                      *SSL          `yaml:"ssl,omitempty" json:"ssl,omitempty,optional"`
 	}
 
