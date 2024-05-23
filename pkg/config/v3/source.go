@@ -13,7 +13,7 @@ import (
 type (
 	Source struct {
 		configbase.Source `yaml:",inline" json:",inline"`
-		Nodes             specv3.Nodes `yaml:"tags,omitempty" json:"nodes,omitempty,optional"`
+		Nodes             specv3.Nodes `yaml:"tags,omitempty" json:"tags,omitempty,optional"`
 		Edges             specv3.Edges `yaml:"edges,omitempty" json:"edges,omitempty,optional"`
 	}
 
