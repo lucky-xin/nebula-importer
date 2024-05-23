@@ -21,23 +21,23 @@ const (
 
 type (
 	Client struct {
-		Version                  string        `yaml:"version"`
-		Address                  string        `yaml:"address"`
-		User                     string        `yaml:"user,omitempty"`
-		Password                 string        `yaml:"password,omitempty"`
-		ConcurrencyPerAddress    int           `yaml:"concurrencyPerAddress,omitempty"`
-		ReconnectInitialInterval time.Duration `yaml:"reconnectInitialInterval,omitempty"`
-		Retry                    int           `yaml:"retry,omitempty"`
-		RetryInitialInterval     time.Duration `yaml:"retryInitialInterval,omitempty"`
-		SSL                      *SSL          `yaml:"ssl,omitempty"`
+		Version                  string        `yaml:"version" json:"version"`
+		Address                  string        `yaml:"address" json:"address"`
+		User                     string        `yaml:"user,omitempty" json:"user,omitempty,optional"`
+		Password                 string        `yaml:"password,omitempty" json:"password,omitempty,optional"`
+		ConcurrencyPerAddress    int           `yaml:"concurrencyPerAddress,omitempty" json:"concurrencyPerAddress,omitempty,optional"`
+		ReconnectInitialInterval time.Duration `yaml:"reconnectInitialInterval,omitempty" json:"reconnectInitialInterval,omitempty,optional"`
+		Retry                    int           `yaml:"retry,omitempty" json:"retry,omitempty,optional"`
+		RetryInitialInterval     time.Duration `yaml:"retryInitialInterval,omitempty" json:"retryInitialInterval,omitempty,optional"`
+		SSL                      *SSL          `yaml:"ssl,omitempty" json:"ssl,omitempty,optional"`
 	}
 
 	SSL struct {
-		Enable             bool   `yaml:"enable,omitempty"`
-		CertPath           string `yaml:"certPath,omitempty"`
-		KeyPath            string `yaml:"keyPath,omitempty"`
-		CAPath             string `yaml:"caPath,omitempty"`
-		InsecureSkipVerify bool   `yaml:"insecureSkipVerify,omitempty"`
+		Enable             bool   `yaml:"enable,omitempty" json:"enable,omitempty,optional"`
+		CertPath           string `yaml:"certPath,omitempty" json:"certPath,omitempty,optional"`
+		KeyPath            string `yaml:"keyPath,omitempty" json:"keyPath,omitempty,optional"`
+		CAPath             string `yaml:"caPath,omitempty" json:"ca_path,omitempty,optional"`
+		InsecureSkipVerify bool   `yaml:"insecureSkipVerify,omitempty" json:"insecureSkipVerify,omitempty,optional"`
 	}
 )
 

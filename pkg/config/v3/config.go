@@ -17,10 +17,10 @@ type (
 	Log    = configbase.Log
 
 	Config struct {
-		Client  `yaml:"client"`
-		Manager `yaml:"manager"`
-		Sources `yaml:"sources"`
-		*Log    `yaml:"log,omitempty"`
+		Client  `yaml:"client" json:"client"`
+		Manager `yaml:"manager" json:"manager"`
+		Sources `yaml:"sources" json:"sources"`
+		*Log    `yaml:"log,omitempty" json:"log,omitempty,optional"`
 
 		logger logger.Logger
 		pool   client.Pool

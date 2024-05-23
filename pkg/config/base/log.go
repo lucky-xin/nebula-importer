@@ -8,10 +8,10 @@ import (
 )
 
 type Log struct {
-	Level   *string       `yaml:"level,omitempty"`
-	Console *bool         `yaml:"console,omitempty"`
-	Files   []string      `yaml:"files,omitempty"`
-	Fields  logger.Fields `yaml:"fields,omitempty"`
+	Level   *string       `yaml:"level,omitempty" json:"level,omitempty,optional"`
+	Console *bool         `yaml:"console,omitempty" json:"console,omitempty,optional"`
+	Files   []string      `yaml:"files,omitempty" json:"files,omitempty,optional"`
+	Fields  logger.Fields `yaml:"fields,omitempty" json:"fields,omitempty,optional"`
 }
 
 // OptimizePath optimizes relative paths base to the configuration file path
