@@ -28,7 +28,8 @@ type (
 	SQLTable struct {
 		Name       string   `yaml:"name" json:"name"`
 		PrimaryKey string   `yaml:"primaryKey" json:"primaryKey"`
-		Fields     []string `yaml:"fields" json:"fields"`
+		Fields     []string `yaml:"fields" json:"fields,omitempty,optional"`
+		SQL        string   `yaml:"sql,omitempty" json:"sql,omitempty,optional"`
 		Filter     string   `yaml:"filter,omitempty" json:"filter,omitempty,optional"`
 	}
 

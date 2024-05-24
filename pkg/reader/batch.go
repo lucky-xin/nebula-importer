@@ -167,7 +167,13 @@ func (r *sqlBatchReader) ReadBatch() (int, spec.Records, error) {
 
 func (r *sqlBatchReader) buildStatement(sqlSource *source.SQLSource) string {
 	table := sqlSource.Config().SQL.DbTable
-	statement := "SELECT " + strings.Join(table.Fields, ",") + " FROM " + table.Name + " WHERE 1 = 1"
+	var statement string
+	if table.SQL != "" {
+		statement = table.SQL
+	} else {
+		statement = "SELECT " + strings.Join(table.Fields, ",") + " FROM " + table.Name + " WHERE 1 = 1"
+	}
+
 	if table.Filter != "" {
 		statement += " AND " + table.Filter
 	}
