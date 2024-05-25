@@ -131,7 +131,7 @@ func (s *SQLSource) String() string {
 
 func (s *SQLSource) validate() error {
 	c := s.Config().SQL
-	if c.DbTable.Fields[0] != c.DbTable.PrimaryKey {
+	if len(c.DbTable.Fields) != 0 && c.DbTable.Fields[0] != c.DbTable.PrimaryKey {
 		return errors.New("primary key must be first field")
 	}
 	return nil
