@@ -19,6 +19,13 @@ type (
 		ReadBatch() (int, spec.Records, error)
 	}
 
+	Convertor interface {
+		Apply(values []string) (spec.Records, error)
+	}
+
+	defaultConvertor struct {
+	}
+
 	continueError struct {
 		Err error
 	}
@@ -26,6 +33,7 @@ type (
 	defaultBatchReader struct {
 		*options
 		rr RecordReader
+		c  Convertor
 	}
 
 	sqlBatchReader struct {
@@ -33,22 +41,31 @@ type (
 		s      *source.SQLSource
 		total  int64
 		lastId string
+		c      Convertor
 	}
 )
 
-func NewBatchRecordReader(rr RecordReader, opts ...Option) BatchRecordReader {
+func NewBatchRecordReader(rr RecordReader, c Convertor, opts ...Option) BatchRecordReader {
+	if c == nil {
+		c = &defaultConvertor{}
+	}
 	brr := &defaultBatchReader{
 		options: newOptions(opts...),
 		rr:      rr,
+		c:       c,
 	}
 	brr.logger = brr.logger.With(logger.Field{Key: "source", Value: rr.Source().Name()})
 	return brr
 }
 
-func NewSQLBatchRecordReader(s *source.SQLSource, opts ...Option) BatchRecordReader {
+func NewSQLBatchRecordReader(s *source.SQLSource, c Convertor, opts ...Option) BatchRecordReader {
+	if c == nil {
+		c = &defaultConvertor{}
+	}
 	brr := &sqlBatchReader{
 		options: newOptions(opts...),
 		s:       s,
+		c:       c,
 	}
 	brr.logger = brr.logger.With(logger.Field{Key: "source", Value: s.Name()})
 	return brr
@@ -58,6 +75,10 @@ func NewContinueError(err error) error {
 	return &continueError{
 		Err: err,
 	}
+}
+
+func (*defaultConvertor) Apply(values []string) (spec.Records, error) {
+	return spec.Records{values}, nil
 }
 
 func (r *defaultBatchReader) Source() source.Source {
@@ -93,7 +114,11 @@ func (r *defaultBatchReader) ReadBatch() (int, spec.Records, error) {
 			return 0, nil, err
 		}
 		batch++
-		records = append(records, record)
+		result, err := r.c.Apply(record)
+		if err != nil {
+			return 0, nil, err
+		}
+		records = append(records, result...)
 	}
 	return totalBytes, records, nil
 }
@@ -151,7 +176,12 @@ func (r *sqlBatchReader) ReadBatch() (int, spec.Records, error) {
 				vals = append(vals, "")
 			}
 		}
-		records = append(records, vals)
+		result, err := r.c.Apply(vals)
+		if err != nil {
+			return 0, nil, err
+		}
+		records = append(records, result...)
+
 	}
 	defer func(rows *sql.Rows) {
 		_ = rows.Close()

@@ -43,7 +43,7 @@ var _ = Describe("BatchRecordReader", func() {
 				records []spec.Record
 				err     error
 			)
-			brr := NewBatchRecordReader(rr, WithBatch(0))
+			brr := NewBatchRecordReader(rr, nil, WithBatch(0))
 			Expect(brr.Source()).NotTo(BeNil())
 			nBytes, err = brr.Size()
 			Expect(err).NotTo(HaveOccurred())
@@ -73,7 +73,7 @@ var _ = Describe("BatchRecordReader", func() {
 				records []spec.Record
 				err     error
 			)
-			brr := NewBatchRecordReader(rr, WithBatch(1))
+			brr := NewBatchRecordReader(rr, nil, WithBatch(1))
 			nBytes, err = brr.Size()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(nBytes).To(Equal(int64(33)))
@@ -120,7 +120,7 @@ var _ = Describe("BatchRecordReader", func() {
 				records []spec.Record
 				err     error
 			)
-			brr := NewBatchRecordReader(rr, WithBatch(1), WithBatch(2))
+			brr := NewBatchRecordReader(rr, nil, WithBatch(1), WithBatch(2))
 			nBytes, err = brr.Size()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(nBytes).To(Equal(int64(33)))
@@ -154,7 +154,7 @@ var _ = Describe("BatchRecordReader", func() {
 				records []spec.Record
 				err     error
 			)
-			brr := NewBatchRecordReader(rr, WithBatch(1), WithBatch(3))
+			brr := NewBatchRecordReader(rr, nil, WithBatch(1), WithBatch(3))
 			nBytes, err = brr.Size()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(nBytes).To(Equal(int64(33)))
@@ -188,7 +188,7 @@ var _ = Describe("BatchRecordReader", func() {
 				records []spec.Record
 				err     error
 			)
-			brr := NewBatchRecordReader(rr, WithBatch(1), WithBatch(4))
+			brr := NewBatchRecordReader(rr, nil, WithBatch(1), WithBatch(4))
 			nBytes, err = brr.Size()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(nBytes).To(Equal(int64(33)))
@@ -242,7 +242,7 @@ var _ = Describe("BatchRecordReader", func() {
 				records []spec.Record
 				err     error
 			)
-			brr := NewBatchRecordReader(rr, WithBatch(1), WithBatch(2))
+			brr := NewBatchRecordReader(rr, nil, WithBatch(1), WithBatch(2))
 			nBytes, err = brr.Size()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(nBytes).To(Equal(int64(16)))
