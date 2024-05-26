@@ -52,7 +52,7 @@ func (c *Config) Optimize(configPath string) error {
 }
 
 func (c *Config) RegistryConvert(name string, convert reader.Convertor) {
-	if c.converts != nil {
+	if c.converts == nil {
 		c.converts = map[string]reader.Convertor{}
 	}
 	c.converts[name] = convert
@@ -79,7 +79,7 @@ func (c *Config) Build() error {
 			}
 		}
 	}()
-	if c.converts != nil {
+	if c.converts == nil {
 		c.converts = map[string]reader.Convertor{}
 	}
 	c.converts["none"] = &reader.NoneConvertor{}
