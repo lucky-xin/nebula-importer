@@ -23,7 +23,7 @@ type (
 		Apply(values []string) (spec.Records, error)
 	}
 
-	defaultConvertor struct {
+	NoneConvertor struct {
 	}
 
 	continueError struct {
@@ -47,7 +47,7 @@ type (
 
 func NewBatchRecordReader(rr RecordReader, c Convertor, opts ...Option) BatchRecordReader {
 	if c == nil {
-		c = &defaultConvertor{}
+		c = &NoneConvertor{}
 	}
 	brr := &defaultBatchReader{
 		options: newOptions(opts...),
@@ -60,7 +60,7 @@ func NewBatchRecordReader(rr RecordReader, c Convertor, opts ...Option) BatchRec
 
 func NewSQLBatchRecordReader(s *source.SQLSource, c Convertor, opts ...Option) BatchRecordReader {
 	if c == nil {
-		c = &defaultConvertor{}
+		c = &NoneConvertor{}
 	}
 	brr := &sqlBatchReader{
 		options: newOptions(opts...),
@@ -77,7 +77,7 @@ func NewContinueError(err error) error {
 	}
 }
 
-func (*defaultConvertor) Apply(values []string) (spec.Records, error) {
+func (*NoneConvertor) Apply(values []string) (spec.Records, error) {
 	return spec.Records{values}, nil
 }
 

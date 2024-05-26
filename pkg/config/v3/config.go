@@ -2,6 +2,7 @@ package configv3
 
 import (
 	"fmt"
+	"github.com/lucky-xin/nebula-importer/pkg/reader"
 
 	"github.com/lucky-xin/nebula-importer/pkg/client"
 	configbase "github.com/lucky-xin/nebula-importer/pkg/config/base"
@@ -22,9 +23,10 @@ type (
 		Sources `yaml:"sources" json:"sources"`
 		*Log    `yaml:"log,omitempty" json:"log,omitempty,optional"`
 
-		logger logger.Logger
-		pool   client.Pool
-		mgr    manager.Manager
+		logger   logger.Logger
+		pool     client.Pool
+		mgr      manager.Manager
+		converts map[string]reader.Convertor
 	}
 )
 
@@ -49,6 +51,14 @@ func (c *Config) Optimize(configPath string) error {
 	return nil
 }
 
+func (c *Config) RegistryConvert(name string, convert reader.Convertor) {
+	c.converts[name] = convert
+}
+
+func (c *Config) GetConvert(name string) reader.Convertor {
+	return c.converts[name]
+}
+
 func (c *Config) Build() error {
 	var (
 		err  error
@@ -66,7 +76,7 @@ func (c *Config) Build() error {
 			}
 		}
 	}()
-
+	c.converts["none"] = &reader.NoneConvertor{}
 	l, err = c.BuildLogger()
 	if err != nil {
 		return err
