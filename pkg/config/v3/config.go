@@ -59,7 +59,8 @@ func (c *Config) RegistryConvert(name string, convert reader.Convertor) {
 }
 
 func (c *Config) GetConvert(name string) reader.Convertor {
-	return c.converts[name]
+	convertor := c.converts[name]
+	return convertor
 }
 
 func (c *Config) Build() error {
