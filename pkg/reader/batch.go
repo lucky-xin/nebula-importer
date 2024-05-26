@@ -201,7 +201,7 @@ func (r *sqlBatchReader) buildStatement(sqlSource *source.SQLSource) string {
 	if table.SQL != "" {
 		statement = table.SQL
 	} else {
-		statement = "SELECT " + strings.Join(table.Fields, ",") + " FROM " + table.Name + " WHERE 1 = 1"
+		statement = "SELECT `" + strings.Join(table.Fields, "`,`") + "` FROM " + table.Name + " WHERE 1 = 1"
 	}
 
 	if table.Filter != "" {
