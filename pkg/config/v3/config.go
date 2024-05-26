@@ -76,6 +76,7 @@ func (c *Config) Build() error {
 			}
 		}
 	}()
+	c.converts = map[string]reader.Convertor{}
 	c.converts["none"] = &reader.NoneConvertor{}
 	l, err = c.BuildLogger()
 	if err != nil {
