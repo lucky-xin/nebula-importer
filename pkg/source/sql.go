@@ -130,6 +130,9 @@ func (s *SQLSource) String() string {
 }
 
 func (s *SQLSource) validate() error {
+	if s.Config().SQL.DbTable.Name == "" {
+		return errors.New("dbTable.name is required")
+	}
 	c := s.Config().SQL
 	if len(c.DbTable.Fields) != 0 && c.DbTable.Fields[0] != c.DbTable.PrimaryKey {
 		return errors.New("primary key must be first field")
