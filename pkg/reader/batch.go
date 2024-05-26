@@ -45,27 +45,42 @@ type (
 	}
 )
 
-func NewBatchRecordReader(rr RecordReader, c Convertor, opts ...Option) BatchRecordReader {
-	if c == nil {
-		c = &NoneConvertor{}
+var (
+	converts map[string]Convertor
+)
+
+func init() {
+	converts = map[string]Convertor{}
+	converts["none"] = &NoneConvertor{}
+}
+
+func RegistryConvert(name string, convert Convertor) {
+	if converts == nil {
+		converts = map[string]Convertor{}
 	}
+	converts[name] = convert
+}
+
+func GetConvert(name string) Convertor {
+	convertor := converts[name]
+	return convertor
+}
+
+func NewBatchRecordReader(rr RecordReader, c string, opts ...Option) BatchRecordReader {
 	brr := &defaultBatchReader{
 		options: newOptions(opts...),
 		rr:      rr,
-		c:       c,
+		c:       GetConvert(c),
 	}
 	brr.logger = brr.logger.With(logger.Field{Key: "source", Value: rr.Source().Name()})
 	return brr
 }
 
-func NewSQLBatchRecordReader(s *source.SQLSource, c Convertor, opts ...Option) BatchRecordReader {
-	if c == nil {
-		c = &NoneConvertor{}
-	}
+func NewSQLBatchRecordReader(s *source.SQLSource, c string, opts ...Option) BatchRecordReader {
 	brr := &sqlBatchReader{
 		options: newOptions(opts...),
 		s:       s,
-		c:       c,
+		c:       GetConvert(c),
 	}
 	brr.logger = brr.logger.With(logger.Field{Key: "source", Value: s.Name()})
 	return brr

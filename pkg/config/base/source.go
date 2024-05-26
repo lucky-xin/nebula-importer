@@ -36,10 +36,10 @@ func (s *Source) BuildSourceAndReader(opts ...reader.Option) (
 		opts = append(opts, reader.WithBatch(s.Batch))
 	}
 	if ss, ok := src.(*source.SQLSource); ok {
-		return ss, reader.NewSQLBatchRecordReader(ss, s.Convertor, opts...), nil
+		return ss, reader.NewSQLBatchRecordReader(ss, *s.Convert, opts...), nil
 	}
 	rr := reader.NewRecordReader(src)
-	brr := reader.NewBatchRecordReader(rr, s.Convertor, opts...)
+	brr := reader.NewBatchRecordReader(rr, *s.Convert, opts...)
 	return src, brr, nil
 }
 

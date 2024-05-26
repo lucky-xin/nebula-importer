@@ -50,7 +50,7 @@ func TestSQLSource(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	reader := NewSQLBatchRecordReader(sou.(*source.SQLSource), nil, WithBatch(10))
+	reader := NewSQLBatchRecordReader(sou.(*source.SQLSource), "none", WithBatch(10))
 	n, record, err := reader.ReadBatch()
 	n, record, err = reader.ReadBatch()
 	if err != nil {

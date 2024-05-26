@@ -2,8 +2,6 @@ package configv3
 
 import (
 	"fmt"
-	"github.com/lucky-xin/nebula-importer/pkg/reader"
-
 	"github.com/lucky-xin/nebula-importer/pkg/client"
 	configbase "github.com/lucky-xin/nebula-importer/pkg/config/base"
 	"github.com/lucky-xin/nebula-importer/pkg/logger"
@@ -23,10 +21,9 @@ type (
 		Sources `yaml:"sources" json:"sources"`
 		*Log    `yaml:"log,omitempty" json:"log,omitempty,optional"`
 
-		logger   logger.Logger
-		pool     client.Pool
-		mgr      manager.Manager
-		converts map[string]reader.Convertor
+		logger logger.Logger
+		pool   client.Pool
+		mgr    manager.Manager
 	}
 )
 
@@ -51,18 +48,6 @@ func (c *Config) Optimize(configPath string) error {
 	return nil
 }
 
-func (c *Config) RegistryConvert(name string, convert reader.Convertor) {
-	if c.converts == nil {
-		c.converts = map[string]reader.Convertor{}
-	}
-	c.converts[name] = convert
-}
-
-func (c *Config) GetConvert(name string) reader.Convertor {
-	convertor := c.converts[name]
-	return convertor
-}
-
 func (c *Config) Build() error {
 	var (
 		err  error
@@ -80,10 +65,6 @@ func (c *Config) Build() error {
 			}
 		}
 	}()
-	if c.converts == nil {
-		c.converts = map[string]reader.Convertor{}
-	}
-	c.converts["none"] = &reader.NoneConvertor{}
 	l, err = c.BuildLogger()
 	if err != nil {
 		return err
@@ -94,12 +75,6 @@ func (c *Config) Build() error {
 	)
 	if err != nil {
 		return err
-	}
-	for i := range c.Sources {
-		s := c.Sources[i]
-		if s.Convert != nil {
-			s.Convertor = c.GetConvert(*s.Convert)
-		}
 	}
 	mgr, err = c.Manager.BuildManager(l, pool, c.Sources,
 		manager.WithGetClientOptions(client.WithClientInitFunc(nil)), // clean the USE SPACE in 3.x
