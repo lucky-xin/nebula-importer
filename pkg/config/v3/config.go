@@ -88,6 +88,12 @@ func (c *Config) Build() error {
 	if err != nil {
 		return err
 	}
+	for i := range c.Sources {
+		s := c.Sources[i]
+		if s.Convert != nil {
+			s.Convertor = c.GetConvert(*s.Convert)
+		}
+	}
 	mgr, err = c.Manager.BuildManager(l, pool, c.Sources,
 		manager.WithGetClientOptions(client.WithClientInitFunc(nil)), // clean the USE SPACE in 3.x
 	)
