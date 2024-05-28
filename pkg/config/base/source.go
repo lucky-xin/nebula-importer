@@ -13,9 +13,11 @@ var sourceNew = source.New
 type (
 	Source struct {
 		source.Config     `yaml:",inline" json:",inline"`
-		Batch             int     `yaml:"batch,omitempty" json:"batch,omitempty,optional,default=200"`
-		DatasourceId      *string `yaml:"datasourceId,omitempty" json:"datasourceId,optional,omitempty"`
-		DatasourceKeyFile *string `yaml:"datasourceKeyFile,omitempty" json:"datasourceKeyFile,optional,omitempty"`
+		Batch             int              `yaml:"batch,omitempty" json:"batch,omitempty,optional,default=200"`
+		DatasourceId      *string          `yaml:"datasourceId,omitempty" json:"datasourceId,optional,omitempty"`
+		DatasourceKeyFile *string          `yaml:"datasourceKeyFile,omitempty" json:"datasourceKeyFile,optional,omitempty"`
+		Convert           *string          `yaml:"convert,omitempty" json:"Convert,optional,omitempty,default=none"`
+		Convertor         reader.Convertor `yaml:"-" json:"-"`
 	}
 )
 
@@ -34,10 +36,10 @@ func (s *Source) BuildSourceAndReader(opts ...reader.Option) (
 		opts = append(opts, reader.WithBatch(s.Batch))
 	}
 	if ss, ok := src.(*source.SQLSource); ok {
-		return ss, reader.NewSQLBatchRecordReader(ss, opts...), nil
+		return ss, reader.NewSQLBatchRecordReader(ss, *s.Convert, opts...), nil
 	}
 	rr := reader.NewRecordReader(src)
-	brr := reader.NewBatchRecordReader(rr, opts...)
+	brr := reader.NewBatchRecordReader(rr, *s.Convert, opts...)
 	return src, brr, nil
 }
 

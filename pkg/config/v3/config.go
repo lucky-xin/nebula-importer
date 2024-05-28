@@ -2,7 +2,6 @@ package configv3
 
 import (
 	"fmt"
-
 	"github.com/lucky-xin/nebula-importer/pkg/client"
 	configbase "github.com/lucky-xin/nebula-importer/pkg/config/base"
 	"github.com/lucky-xin/nebula-importer/pkg/logger"
@@ -66,7 +65,6 @@ func (c *Config) Build() error {
 			}
 		}
 	}()
-
 	l, err = c.BuildLogger()
 	if err != nil {
 		return err
