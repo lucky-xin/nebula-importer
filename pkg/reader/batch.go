@@ -63,6 +63,9 @@ func RegistryConvertor(name string, convert Convertor) {
 
 func GetConvertor(name string) Convertor {
 	convertor := converts[name]
+	if convertor == nil {
+		return &NoneConvertor{}
+	}
 	return convertor
 }
 
