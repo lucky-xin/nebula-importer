@@ -220,11 +220,11 @@ func (r *sqlBatchReader) buildStatement(sqlSource *source.SQLSource) string {
 		statement = table.SQL
 	} else {
 		statement = "SELECT `" + strings.Join(table.Fields, "`,`") + "` FROM " + table.Name + " WHERE 1 = 1"
+		if table.Filter != "" {
+			statement += " AND " + table.Filter
+		}
 	}
 
-	if table.Filter != "" {
-		statement += " AND " + table.Filter
-	}
 	if r.lastId != "" {
 		statement += " AND " + table.PrimaryKey + " > '" + r.lastId + "'"
 	}

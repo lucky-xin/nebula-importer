@@ -7,15 +7,35 @@ import (
 )
 
 func TestSQLSource(t *testing.T) {
-	sql := "SELECT CONCAT(addr.id,'-',las.id) id, addr.odx_ecu_name, addr.request_address, addr.response_address, addr.frame_type, addr.ecu_cn, las.las_code FROM t_vehicle_series_odx_address addr LEFT JOIN t_vehicle_series_ecu_las las ON las.vehicle_series_code = addr.vehicle_series_code WHERE 1 = 1"
+	sql := "SELECT count(1) total FROM t_vehicle_series_odx_address addr LEFT JOIN t_vehicle_series_ecu_las las ON las.vehicle_series_code = addr.vehicle_series_code WHERE 1 = 1"
 	stmt, err := sqlparser.Parse(sql)
 	if err != nil {
 		// Do something with the err
 	}
 
+	countSql := sqlparser.AliasedExpr{
+		Expr: &sqlparser.FuncExpr{
+			Name: sqlparser.NewColIdent("count"),
+			Exprs: sqlparser.SelectExprs{
+				&sqlparser.AliasedExpr{
+					Expr: sqlparser.NewStrVal([]byte("*")),
+				},
+			},
+		},
+		As: sqlparser.NewColIdent("total"),
+	}
+
 	// Otherwise do something with stmt
 	selectStmt := stmt.(*sqlparser.Select)
 	where := selectStmt.Where
+	selectStmt.SelectExprs = sqlparser.SelectExprs{
+		&countSql,
+	}
+	buf := sqlparser.NewTrackedBuffer(nil)
+	selectStmt.Format(buf)
+	countSQL := buf.String()
+	println(countSQL)
+
 	if where != nil {
 		buffer := sqlparser.NewTrackedBuffer(func(buf *sqlparser.TrackedBuffer, node sqlparser.SQLNode) {
 			node.Format(buf)

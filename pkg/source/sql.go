@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/xwb1989/sqlparser"
 	"time"
 )
 
@@ -100,11 +101,34 @@ func (s *SQLSource) Config() *Config {
 }
 
 func (s *SQLSource) Size() (total int64, err error) {
-	totalSql := "SELECT count(1) total FROM " + s.Config().SQL.DbTable.Name + " WHERE 1 = 1"
-	if s.Config().SQL.DbTable.Filter != "" {
-		totalSql += " AND " + s.Config().SQL.DbTable.Filter
+	table := s.Config().SQL.DbTable
+	var countSQL string
+	if table.SQL != "" {
+		stmt, err := sqlparser.Parse(table.SQL)
+		if err != nil {
+			return 0, err
+		}
+		expr := sqlparser.AliasedExpr{
+			Expr: &sqlparser.FuncExpr{
+				Name:  sqlparser.NewColIdent("count"),
+				Exprs: sqlparser.SelectExprs{&sqlparser.AliasedExpr{Expr: sqlparser.NewStrVal([]byte("*"))}},
+			},
+			As: sqlparser.NewColIdent("total"),
+		}
+		selectStmt := stmt.(*sqlparser.Select)
+		selectStmt.SelectExprs = sqlparser.SelectExprs{
+			&expr,
+		}
+		buf := sqlparser.NewTrackedBuffer(nil)
+		selectStmt.Format(buf)
+		countSQL = buf.String()
+	} else {
+		countSQL = "SELECT count(1) total FROM " + s.Config().SQL.DbTable.Name + " WHERE 1 = 1"
+		if s.Config().SQL.DbTable.Filter != "" {
+			countSQL += " AND " + s.Config().SQL.DbTable.Filter
+		}
 	}
-	rows, err := s.Db.Query(totalSql)
+	rows, err := s.Db.Query(countSQL)
 	if err != nil {
 		return
 	}
