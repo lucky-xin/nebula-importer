@@ -20,8 +20,7 @@ type (
 	}
 
 	Convertor interface {
-		Apply(values []string) (spec.Records, error)
-		GetSource() source.Source
+		Apply(s source.Source, values []string) (spec.Records, error)
 	}
 
 	NoneConvertor struct {
@@ -96,12 +95,8 @@ func NewContinueError(err error) error {
 	}
 }
 
-func (*NoneConvertor) Apply(values []string) (spec.Records, error) {
+func (*NoneConvertor) Apply(s source.Source, values []string) (spec.Records, error) {
 	return spec.Records{values}, nil
-}
-
-func (*NoneConvertor) GetSource() source.Source {
-	return nil
 }
 
 func (r *defaultBatchReader) Source() source.Source {
@@ -137,7 +132,7 @@ func (r *defaultBatchReader) ReadBatch() (int, spec.Records, error) {
 			return 0, nil, err
 		}
 		batch++
-		result, err := r.c.Apply(record)
+		result, err := r.c.Apply(r.Source(), record)
 		if err != nil {
 			return 0, nil, err
 		}
@@ -199,7 +194,7 @@ func (r *sqlBatchReader) ReadBatch() (int, spec.Records, error) {
 				vals = append(vals, "")
 			}
 		}
-		result, err := r.c.Apply(vals)
+		result, err := r.c.Apply(r.Source(), vals)
 		if err != nil {
 			return 0, nil, err
 		}
