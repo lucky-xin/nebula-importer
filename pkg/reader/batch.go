@@ -21,6 +21,7 @@ type (
 
 	Convertor interface {
 		Apply(values []string) (spec.Records, error)
+		GetSource() source.Source
 	}
 
 	NoneConvertor struct {
@@ -97,6 +98,10 @@ func NewContinueError(err error) error {
 
 func (*NoneConvertor) Apply(values []string) (spec.Records, error) {
 	return spec.Records{values}, nil
+}
+
+func (*NoneConvertor) GetSource() source.Source {
+	return nil
 }
 
 func (r *defaultBatchReader) Source() source.Source {
