@@ -168,14 +168,14 @@ func (m *defaultManager) Import(s source.Source, brr reader.BatchRecordReader, i
 		return err
 	}
 
-	nBytes, err := s.Size()
+	n, err := s.Size()
 	if err != nil {
 		_ = s.Close()
 		err = errors.NewImportError(err, "manager: get size of import source failed").SetGraphName(m.graphName)
 		m.logError(err, "", logSourceField)
 		return err
 	}
-	m.stats.AddTotalBytes(nBytes)
+	m.stats.AddTotalBytes(n)
 
 	m.readerWaitGroup.Add(1)
 	for _, i := range importers {
@@ -339,7 +339,7 @@ func (m *defaultManager) loopImport(s source.Source, r reader.BatchRecordReader,
 		case <-m.done:
 			return nil
 		default:
-			nBytes, records, err := r.ReadBatch()
+			n, records, err := r.ReadBatch()
 			if err != nil {
 				if err != io.EOF {
 					err = errors.NewImportError(err, "manager: read batch failed").SetGraphName(m.graphName)
@@ -348,12 +348,12 @@ func (m *defaultManager) loopImport(s source.Source, r reader.BatchRecordReader,
 				}
 				return nil
 			}
-			m.submitImporterTask(nBytes, records, importers...)
+			m.submitImporterTask(n, records, importers...)
 		}
 	}
 }
 
-func (m *defaultManager) submitImporterTask(nBytes int, records spec.Records, importers ...importer.Importer) {
+func (m *defaultManager) submitImporterTask(n int, records spec.Records, importers ...importer.Importer) {
 	importersDone := func() {
 		for _, i := range importers {
 			i.Done() // Done 1 for batch
@@ -383,9 +383,9 @@ func (m *defaultManager) submitImporterTask(nBytes int, records spec.Records, im
 			}
 		}
 		if isFailed {
-			m.onFailed(nBytes, records)
+			m.onFailed(n, records)
 		} else {
-			m.onSucceeded(nBytes, records)
+			m.onSucceeded(n, records)
 		}
 	}); err != nil {
 		importersDone()

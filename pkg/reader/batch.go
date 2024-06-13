@@ -161,7 +161,7 @@ func (r *sqlBatchReader) Size() (int64, error) {
 	return r.s.Size()
 }
 
-func (r *sqlBatchReader) ReadBatch() (int, spec.Records, error) {
+func (r *sqlBatchReader) ReadBatch() (n int, records spec.Records, err error) {
 	querySql := r.buildStatement(r.s)
 	rows, err := r.s.Db.Query(querySql)
 	if err != nil {
@@ -171,7 +171,6 @@ func (r *sqlBatchReader) ReadBatch() (int, spec.Records, error) {
 	if err != nil {
 		return 0, nil, err
 	}
-	records := make(spec.Records, 0, r.batch)
 	for rows.Next() {
 		values := make([]interface{}, len(cols))
 		for i := range values {
@@ -198,14 +197,12 @@ func (r *sqlBatchReader) ReadBatch() (int, spec.Records, error) {
 		if err != nil {
 			return 0, nil, err
 		}
+		n++
 		records = append(records, result...)
-
 	}
 	defer func(rows *sql.Rows) {
 		_ = rows.Close()
 	}(rows)
-
-	n := len(records)
 	if n == 0 {
 		return 0, nil, io.EOF
 	}
