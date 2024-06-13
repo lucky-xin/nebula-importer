@@ -25,6 +25,7 @@ require (
 	github.com/spf13/cobra v1.8.0
 	github.com/valyala/bytebufferpool v1.0.0
 	github.com/vesoft-inc/nebula-go/v3 v3.8.0
+	github.com/xwb1989/sqlparser v0.0.0-20180606152119-120387863bf2
 	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.23.0
 	google.golang.org/api v0.181.0
