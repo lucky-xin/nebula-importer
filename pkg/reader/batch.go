@@ -203,10 +203,10 @@ func (r *sqlBatchReader) ReadBatch() (n int, records spec.Records, err error) {
 	defer func(rows *sql.Rows) {
 		_ = rows.Close()
 	}(rows)
-	if len(records) == 0 {
+	if n == 0 {
 		return 0, nil, io.EOF
 	}
-	r.lastId = records[n-1][0]
+	r.lastId = records[len(records)-1][0]
 	return n, records, nil
 }
 
