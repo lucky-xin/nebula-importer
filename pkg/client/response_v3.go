@@ -48,6 +48,10 @@ func (resp defaultResponseV3) IsPermanentError() bool {
 }
 
 func (resp defaultResponseV3) IsRetryMoreError() bool {
+	switch resp.ResultSet.GetErrorCode() {
+	case nebula.ErrorCode_E_SEMANTIC_ERROR:
+		return true
+	}
 	errorMsg := resp.ResultSet.GetErrorMsg()
 	// TODO: compare with E_RAFT_BUFFER_OVERFLOW
 	// Can not get the E_RAFT_BUFFER_OVERFLOW inside storage now.

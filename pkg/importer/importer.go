@@ -114,7 +114,7 @@ func (i *defaultImporter) Import(records ...spec.Record) (*ImportResp, error) {
 			if e != nil {
 				return nil, e
 			}
-			if !r.IsSucceed() && r.IsPermanentError() {
+			if !r.IsSucceed() && r.IsRetryMoreError() {
 				return nil, errors.ErrContinue
 			}
 			return r, e
