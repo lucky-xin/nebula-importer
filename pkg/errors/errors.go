@@ -27,4 +27,5 @@ var (
 	ErrUnsupportedFunction       = stderrors.New("unsupported function")
 	ErrFilterSyntax              = stderrors.New("filter syntax")
 	ErrUnsupportedMode           = stderrors.New("unsupported mode")
+	ErrContinue                  = stderrors.New("continue")
 )

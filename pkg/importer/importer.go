@@ -2,11 +2,13 @@
 package importer
 
 import (
+	errors2 "errors"
+	"github.com/avast/retry-go/v4"
+	"github.com/lucky-xin/nebula-importer/pkg/spec"
 	"time"
 
 	"github.com/lucky-xin/nebula-importer/pkg/client"
 	"github.com/lucky-xin/nebula-importer/pkg/errors"
-	"github.com/lucky-xin/nebula-importer/pkg/spec"
 )
 
 type (
@@ -106,7 +108,24 @@ func (i *defaultImporter) Import(records ...spec.Record) (*ImportResp, error) {
 		return &ImportResp{}, nil
 	}
 
-	resp, err := i.pool.Execute(statement)
+	resp, err := retry.DoWithData[client.Response](
+		func() (client.Response, error) {
+			r, e := i.pool.Execute(statement)
+			if e != nil {
+				return nil, e
+			}
+			if !r.IsSucceed() && r.IsPermanentError() {
+				return nil, errors.ErrContinue
+			}
+			return r, e
+		},
+		retry.Attempts(5),
+		retry.RetryIf(func(err error) bool {
+			return errors2.As(err, &errors.ErrContinue)
+		}),
+		retry.Delay(time.Second*1),
+		retry.MaxDelay(time.Second*10),
+	)
 	if err != nil {
 		return nil, errors.NewImportError(err).
 			SetStatement(statement)
