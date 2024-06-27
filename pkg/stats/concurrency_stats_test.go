@@ -12,8 +12,7 @@ import (
 var _ = Describe("ConcurrencyStats", func() {
 	It("concurrency", func() {
 		rand.Seed(time.Now().UnixNano())
-
-		concurrencyStats := NewConcurrencyStats()
+		concurrencyStats := NewConcurrencyStats(true)
 		concurrencyStats.Init()
 		initStats := concurrencyStats.Stats()
 		Expect(initStats.StartTime.IsZero()).To(BeFalse())
@@ -88,8 +87,8 @@ var _ = Describe("ConcurrencyStats", func() {
 		s := concurrencyStats.Stats()
 		Expect(s).To(Equal(&Stats{
 			StartTime:       initStats.StartTime,
-			ProcessedBytes:  sumBytes,
-			TotalBytes:      sumBytes,
+			Processed:       sumBytes,
+			Total:           sumBytes,
 			FailedRecords:   sumFailedRecords,
 			TotalRecords:    sumRecords,
 			FailedRequest:   sumFailedBatches * 2,

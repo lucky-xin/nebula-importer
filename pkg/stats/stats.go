@@ -10,8 +10,9 @@ import (
 type (
 	Stats struct {
 		StartTime       time.Time     // The time to start statistics.
-		ProcessedBytes  int64         // The processed bytes.
-		TotalBytes      int64         // The total bytes.
+		Processed       int64         // The processed bytes or records.
+		Total           int64         // The total bytes or records.
+		RecordStats     bool          // is bytes or records
 		FailedRecords   int64         // The number of records that have failed to be processed.
 		TotalRecords    int64         // The number of records that have been processed.
 		FailedRequest   int64         // The number of requests that have failed.
@@ -28,10 +29,10 @@ func (s *Stats) IsFailed() bool {
 }
 
 func (s *Stats) Percentage() float64 {
-	if s.TotalBytes == 0 {
+	if s.Total == 0 {
 		return 0
 	}
-	return float64(s.ProcessedBytes) / float64(s.TotalBytes) * 100
+	return float64(s.Processed) / float64(s.Total) * 100
 }
 
 func (s *Stats) String() string {
@@ -64,13 +65,26 @@ func (s *Stats) String() string {
 		processedPreSecond = float64(s.TotalProcessed) / seconds
 	}
 
+	if s.RecordStats {
+		return fmt.Sprintf("%s %s "+
+			"%.2f%%(%d/%d) "+
+			"Records{Finished: %d, Failed: %d, Rate: %.2f/s}, "+
+			"Requests{Finished: %d, Failed: %d, Latency: %s/%s, Rate: %.2f/s}, "+
+			"Processed{Finished: %d, Failed: %d, Rate: %.2f/s}",
+			duration.Truncate(time.Second), remainingTime,
+			percentage, uint64(s.Processed), uint64(s.Total),
+			s.TotalRecords, s.FailedRecords, recordsPreSecond,
+			s.TotalRequest, s.FailedRequest, avgLatency, avgRespTime, requestPreSecond,
+			s.TotalProcessed, s.FailedProcessed, processedPreSecond,
+		)
+	}
 	return fmt.Sprintf("%s %s "+
 		"%.2f%%(%s/%s) "+
 		"Records{Finished: %d, Failed: %d, Rate: %.2f/s}, "+
 		"Requests{Finished: %d, Failed: %d, Latency: %s/%s, Rate: %.2f/s}, "+
 		"Processed{Finished: %d, Failed: %d, Rate: %.2f/s}",
 		duration.Truncate(time.Second), remainingTime,
-		percentage, humanize.IBytes(uint64(s.ProcessedBytes)), humanize.IBytes(uint64(s.TotalBytes)),
+		percentage, humanize.IBytes(uint64(s.Processed)), humanize.IBytes(uint64(s.Total)),
 		s.TotalRecords, s.FailedRecords, recordsPreSecond,
 		s.TotalRequest, s.FailedRequest, avgLatency, avgRespTime, requestPreSecond,
 		s.TotalProcessed, s.FailedProcessed, processedPreSecond,

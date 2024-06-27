@@ -220,8 +220,8 @@ var _ = Describe("Manager", func() {
 			s := m.Stats()
 
 			Expect(s.StartTime.IsZero()).To(BeFalse())
-			Expect(s.ProcessedBytes).To(Equal(processedBytes))
-			Expect(s.TotalBytes).To(Equal(totalBytes))
+			Expect(s.Processed).To(Equal(processedBytes))
+			Expect(s.Total).To(Equal(totalBytes))
 			Expect(s.FailedRecords).NotTo(Equal(int64(0)))
 			Expect(s.FailedRecords).To(BeNumerically("<=", executeFailedTimes*int64(batch)))
 			Expect(s.TotalRecords).To(Equal(totalRecords))

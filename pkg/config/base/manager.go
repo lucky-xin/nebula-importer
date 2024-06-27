@@ -13,5 +13,6 @@ type (
 		ImporterConcurrency int           `yaml:"importerConcurrency,omitempty" json:"importerConcurrency,omitempty,optional,default=200"`
 		StatsInterval       time.Duration `yaml:"statsInterval,omitempty" json:"statsInterval,omitempty,optional,default=10000000000"`
 		Hooks               manager.Hooks `yaml:"hooks,omitempty" json:"hooks,omitempty,optional"`
+		RecordStats         bool          `yaml:"recordStats,omitempty" json:"recordStats,omitempty,optional"`
 	}
 )

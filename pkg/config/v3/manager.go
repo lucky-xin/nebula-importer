@@ -31,6 +31,7 @@ func (m *Manager) BuildManager(
 		manager.WithBeforeHooks(m.Hooks.Before...),
 		manager.WithAfterHooks(m.Hooks.After...),
 		manager.WithLogger(l),
+		manager.WithRecordStats(m.RecordStats),
 	)
 	options = append(options, opts...)
 
