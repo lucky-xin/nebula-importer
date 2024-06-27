@@ -37,7 +37,7 @@ type (
 
 	defaultManager struct {
 		graphName           string
-		RecordStats         bool
+		recordStats         bool
 		pool                client.Pool
 		getClientOptions    []client.Option
 		stats               *stats.ConcurrencyStats
@@ -79,7 +79,7 @@ func NewWithOpts(opts ...Option) Manager {
 	for _, opt := range opts {
 		opt(m)
 	}
-	m.stats = stats.NewConcurrencyStats(m.RecordStats)
+	m.stats = stats.NewConcurrencyStats(m.recordStats)
 	m.readerPool, _ = ants.NewPool(m.readerConcurrency)
 	m.importerPool, _ = ants.NewPool(m.importerConcurrency)
 
@@ -104,7 +104,7 @@ func WithClientPool(pool client.Pool) Option {
 
 func WithRecordStats(recordStats bool) Option {
 	return func(m *defaultManager) {
-		m.RecordStats = recordStats
+		m.recordStats = recordStats
 	}
 }
 
