@@ -27,16 +27,22 @@ type (
 	}
 
 	SQLTable struct {
-		PrimaryKey string   `yaml:"primaryKey" json:"primaryKey"`
-		Name       string   `yaml:"name,omitempty" json:"name,omitempty,optional"`
-		Fields     []string `yaml:"fields,omitempty" json:"fields,omitempty,optional"`
-		SQL        string   `yaml:"sql,omitempty" json:"sql,omitempty,optional"`
-		Filter     string   `yaml:"filter,omitempty" json:"filter,omitempty,optional"`
+		Id     SQLId    `yaml:"id" json:"id"`
+		Name   string   `yaml:"name,omitempty" json:"name,omitempty,optional"`
+		Fields []string `yaml:"fields,omitempty" json:"fields,omitempty,optional"`
+		Query  string   `yaml:"query,omitempty" json:"query,omitempty,optional"`
+		Count  string   `yaml:"count,omitempty" json:"count,omitempty,optional"`
+		Filter string   `yaml:"filter,omitempty" json:"filter,omitempty,optional"`
 	}
 
 	SQLSource struct {
 		c  *Config
 		Db *sql.DB
+	}
+	SQLId struct {
+		Name  string `yaml:"name,omitempty" json:"name,omitempty,optional,default=id"`
+		Index int    `yaml:"index,omitempty" json:"index,omitempty,optional,default=0"`
+		Alais string `yaml:"alias,omitempty" json:"alias,omitempty,optional"`
 	}
 )
 
@@ -103,8 +109,10 @@ func (s *SQLSource) Config() *Config {
 func (s *SQLSource) Size() (total int64, err error) {
 	table := s.Config().SQL.DbTable
 	var countSQL string
-	if table.SQL != "" {
-		stmt, err := sqlparser.Parse(table.SQL)
+	if table.Count != "" {
+		countSQL = table.Count
+	} else if table.Query != "" {
+		stmt, err := sqlparser.Parse(table.Query)
 		if err != nil {
 			return 0, err
 		}
@@ -158,10 +166,10 @@ func (s *SQLSource) validate() error {
 		return errors.New("dbTable.name is required")
 	}
 	c := s.Config().SQL
-	if len(c.DbTable.Fields) != 0 && c.DbTable.Fields[0] != c.DbTable.PrimaryKey {
+	if len(c.DbTable.Fields) != 0 && c.DbTable.Fields[c.DbTable.Id.Index] != c.DbTable.Id.Name {
 		return errors.New("primary key must be first field")
 	}
-	if c.DbTable.SQL == "" {
+	if c.DbTable.Query == "" {
 		if c.DbTable.Name == "" || len(c.DbTable.Fields) == 0 {
 			return errors.New("name and fields must not be empty,when sql is empty")
 		}
@@ -171,4 +179,42 @@ func (s *SQLSource) validate() error {
 
 func (c *SQLConfig) String() string {
 	return fmt.Sprintf("sql %s/%s", c.Endpoint, c.DbTable.Name)
+}
+
+func (t *SQLTable) PrimaryKey() string {
+	if t.Id.Alais != "" {
+		return t.Id.Alais
+	}
+	return t.Id.Name
+}
+
+func (t *SQLTable) CountSQL() (countSQL string, err error) {
+	if t.Count != "" {
+		return t.Count, nil
+	} else if t.Query != "" {
+		stmt, err := sqlparser.Parse(t.Query)
+		if err != nil {
+			return "", err
+		}
+		expr := sqlparser.AliasedExpr{
+			Expr: &sqlparser.FuncExpr{
+				Name:  sqlparser.NewColIdent("count"),
+				Exprs: sqlparser.SelectExprs{&sqlparser.AliasedExpr{Expr: sqlparser.NewStrVal([]byte("*"))}},
+			},
+			As: sqlparser.NewColIdent("total"),
+		}
+		selectStmt := stmt.(*sqlparser.Select)
+		selectStmt.SelectExprs = sqlparser.SelectExprs{
+			&expr,
+		}
+		buf := sqlparser.NewTrackedBuffer(nil)
+		selectStmt.Format(buf)
+		countSQL = buf.String()
+	} else {
+		countSQL = "SELECT count(1) total FROM " + t.Name + " WHERE 1 = 1"
+		if t.Filter != "" {
+			countSQL += " AND " + t.Filter
+		}
+	}
+	return
 }

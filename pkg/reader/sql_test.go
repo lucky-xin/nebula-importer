@@ -15,8 +15,11 @@ func TestSQLSource(t *testing.T) {
 			Username:   "",
 			Password:   "cCFzQHQkbyRuLmkubi50I0AhbXlzc6Ww",
 			DbTable: source.SQLTable{
-				PrimaryKey: "user_id",
-				Name:       "sys_user",
+				Id: source.SQLId{
+					Name:  "id",
+					Index: 0,
+				},
+				Name: "sys_user",
 				Fields: []string{
 					"user_id",
 					"username",
