@@ -388,11 +388,13 @@ func (m *defaultManager) submitImporterTask(n int, records spec.Records, importe
 				}
 			}
 		}
+		m.logger.Info(fmt.Sprintf("manager: import %d records, n:%d successfully", len(records), n))
 		if isFailed {
 			m.onFailed(n, records)
 		} else {
 			m.onSucceeded(n, records)
 		}
+		m.logStats()
 	}); err != nil {
 		importersDone()
 		m.importerWaitGroup.Done()

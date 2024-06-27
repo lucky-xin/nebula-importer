@@ -29,47 +29,47 @@ func (s *ConcurrencyStats) Init() {
 
 func (s *ConcurrencyStats) AddTotalBytes(nBytes int64) {
 	s.mu.Lock()
+	defer s.mu.Unlock()
 	s.s.Total += nBytes
-	s.mu.Unlock()
 }
 
-func (s *ConcurrencyStats) Failed(nBytes, nRecords int64) {
+func (s *ConcurrencyStats) Failed(n, nRecords int64) {
 	s.mu.Lock()
-	s.s.Processed += nBytes
+	defer s.mu.Unlock()
+	s.s.Processed += n
 	s.s.FailedRecords += nRecords
 	s.s.TotalRecords += nRecords
-	s.mu.Unlock()
 }
 
-func (s *ConcurrencyStats) Succeeded(nBytes, nRecords int64) {
+func (s *ConcurrencyStats) Succeeded(n, nRecords int64) {
 	s.mu.Lock()
-	s.s.Processed += nBytes
+	defer s.mu.Unlock()
+	s.s.Processed += n
 	s.s.TotalRecords += nRecords
-	s.mu.Unlock()
 }
 
 func (s *ConcurrencyStats) RequestFailed(nRecords int64) {
 	s.mu.Lock()
+	defer s.mu.Unlock()
 	s.s.FailedRequest++
 	s.s.TotalRequest++
 	s.s.FailedProcessed += nRecords
 	s.s.TotalProcessed += nRecords
-	s.mu.Unlock()
 }
 
 func (s *ConcurrencyStats) RequestSucceeded(nRecords int64, latency, respTime time.Duration) {
 	s.mu.Lock()
+	defer s.mu.Unlock()
 	s.s.TotalRequest++
 	s.s.TotalLatency += latency
 	s.s.TotalRespTime += respTime
 	s.s.TotalProcessed += nRecords
-	s.mu.Unlock()
 }
 
 func (s *ConcurrencyStats) Stats() *Stats {
 	s.mu.Lock()
+	defer s.mu.Unlock()
 	cpy := s.s
-	s.mu.Unlock()
 	return &cpy
 }
 
