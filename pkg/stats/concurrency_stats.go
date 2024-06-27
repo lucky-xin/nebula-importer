@@ -13,8 +13,12 @@ type (
 	}
 )
 
-func NewConcurrencyStats() *ConcurrencyStats {
-	return &ConcurrencyStats{}
+func NewConcurrencyStats(byteStats bool) *ConcurrencyStats {
+	return &ConcurrencyStats{
+		s: Stats{
+			ByteStats: byteStats,
+		},
+	}
 }
 
 func (s *ConcurrencyStats) Init() {
@@ -25,13 +29,13 @@ func (s *ConcurrencyStats) Init() {
 
 func (s *ConcurrencyStats) AddTotalBytes(nBytes int64) {
 	s.mu.Lock()
-	s.s.TotalBytes += nBytes
+	s.s.Total += nBytes
 	s.mu.Unlock()
 }
 
 func (s *ConcurrencyStats) Failed(nBytes, nRecords int64) {
 	s.mu.Lock()
-	s.s.ProcessedBytes += nBytes
+	s.s.Processed += nBytes
 	s.s.FailedRecords += nRecords
 	s.s.TotalRecords += nRecords
 	s.mu.Unlock()
@@ -39,7 +43,7 @@ func (s *ConcurrencyStats) Failed(nBytes, nRecords int64) {
 
 func (s *ConcurrencyStats) Succeeded(nBytes, nRecords int64) {
 	s.mu.Lock()
-	s.s.ProcessedBytes += nBytes
+	s.s.Processed += nBytes
 	s.s.TotalRecords += nRecords
 	s.mu.Unlock()
 }

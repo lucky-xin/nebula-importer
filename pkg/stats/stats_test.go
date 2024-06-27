@@ -18,8 +18,8 @@ var _ = Describe("Stats", func() {
 		It("TotalRecords is not zero", func() {
 			s := &Stats{
 				StartTime:       time.Now().Add(-time.Second * 10),
-				ProcessedBytes:  100 * 1024,
-				TotalBytes:      300 * 1024,
+				Processed:       100 * 1024,
+				Total:           300 * 1024,
 				FailedRecords:   23,
 				TotalRecords:    1234,
 				FailedRequest:   1,
