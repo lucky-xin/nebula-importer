@@ -40,9 +40,9 @@ type (
 		Db *sql.DB
 	}
 	SQLId struct {
-		Name  string `yaml:"name,omitempty,optional" json:"name,omitempty,optional,default=id"`
-		Index int    `yaml:"index,omitempty,optional" json:"index,omitempty,optional,default=0"`
-		Alais string `yaml:"alias,omitempty,optional" json:"alias,omitempty,optional"`
+		Name  string `yaml:"name,omitempty" json:"name,omitempty,optional,default=id"`
+		Index int    `yaml:"index,omitempty" json:"index,omitempty,optional,default=0"`
+		Alais string `yaml:"alias,omitempty" json:"alias,omitempty,optional"`
 	}
 )
 
