@@ -27,18 +27,18 @@ func (s *ConcurrencyStats) Init() {
 	})
 }
 
-func (s *ConcurrencyStats) AddTotalBytes(nBytes int64) {
+func (s *ConcurrencyStats) AddTotal(n int64) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	s.s.Total += nBytes
+	s.s.Total += n
 }
 
-func (s *ConcurrencyStats) Failed(n, nRecords int64) {
+func (s *ConcurrencyStats) Failed(n, records int64) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.s.Processed += n
-	s.s.FailedRecords += nRecords
-	s.s.TotalRecords += nRecords
+	s.s.FailedRecords += records
+	s.s.TotalRecords += records
 }
 
 func (s *ConcurrencyStats) Succeeded(n, nRecords int64) {

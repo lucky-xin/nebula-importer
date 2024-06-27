@@ -39,7 +39,7 @@ var _ = Describe("ConcurrencyStats", func() {
 
 			wg.Add(1)
 			go func(index int) {
-				concurrencyStats.AddTotalBytes(totalBytes[index])
+				concurrencyStats.AddTotal(totalBytes[index])
 				wg.Done()
 			}(i)
 
