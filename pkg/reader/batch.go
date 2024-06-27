@@ -207,25 +207,25 @@ func (r *sqlBatchReader) ReadBatch() (n int, records spec.Records, err error) {
 	if size == 0 {
 		return 0, nil, io.EOF
 	}
-	r.lastId = records[size-1][0]
+	r.lastId = records[size-1][r.s.Config().SQL.DbTable.Id.Index]
 	return n, records, nil
 }
 
 func (r *sqlBatchReader) buildStatement(sqlSource *source.SQLSource) string {
 	table := sqlSource.Config().SQL.DbTable
 	var statement string
-	if table.SQL != "" {
-		statement = table.SQL
+	if table.Query != "" {
+		statement = table.Query
 	} else {
 		statement = "SELECT `" + strings.Join(table.Fields, "`,`") + "` FROM " + table.Name + " WHERE 1 = 1"
 		if table.Filter != "" {
 			statement += " AND " + table.Filter
 		}
 	}
-
+	key := table.PrimaryKey()
 	if r.lastId != "" {
-		statement += " AND " + table.PrimaryKey + " > '" + r.lastId + "'"
+		statement += " AND " + key + " > '" + r.lastId + "'"
 	}
-	statement += " ORDER BY " + table.PrimaryKey + " ASC LIMIT " + fmt.Sprintf("%d", r.batch)
+	statement += " ORDER BY " + key + " ASC LIMIT " + fmt.Sprintf("%d", r.batch)
 	return statement
 }
