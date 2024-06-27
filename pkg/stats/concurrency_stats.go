@@ -16,7 +16,7 @@ type (
 func NewConcurrencyStats(byteStats bool) *ConcurrencyStats {
 	return &ConcurrencyStats{
 		s: Stats{
-			ByteStats: byteStats,
+			RecordStats: byteStats,
 		},
 	}
 }
