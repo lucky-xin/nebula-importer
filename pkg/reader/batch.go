@@ -227,5 +227,6 @@ func (r *sqlBatchReader) buildStatement(sqlSource *source.SQLSource) string {
 		statement += " AND " + table.PrimaryKey + " > '" + r.lastId + "'"
 	}
 	statement += " ORDER BY " + table.PrimaryKey + " ASC LIMIT " + fmt.Sprintf("%d", r.batch)
+	r.logger.With(logger.Field{Key: "statement", Value: statement}).Debug("build statement")
 	return statement
 }
