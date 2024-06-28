@@ -57,14 +57,23 @@ func (s *SQLSource) Name() string {
 }
 
 func (s *SQLSource) Open() (err error) {
+	db, err := s.Connect(s.c.SQL.DbName)
+	if err != nil {
+		return
+	}
+	s.Db = db
+	return
+}
+
+func (s *SQLSource) Connect(dbname string) (db *sql.DB, err error) {
 	s.setDefaultConfig()
 	err = s.validate()
 	if err != nil {
 		return
 	}
 	conf := s.c.SQL
-	db, err := sql.Open(conf.DriverName,
-		fmt.Sprintf("%s:%s@tcp(%s)/%s?%s", conf.Username, conf.Password, conf.Endpoint, conf.DbName, conf.UrlQuery))
+	db, err = sql.Open(conf.DriverName,
+		fmt.Sprintf("%s:%s@tcp(%s)/%s?%s", conf.Username, conf.Password, conf.Endpoint, dbname, conf.UrlQuery))
 	if err != nil {
 		return
 	}
@@ -77,7 +86,6 @@ func (s *SQLSource) Open() (err error) {
 	if err != nil {
 		return
 	}
-	s.Db = db
 	return
 }
 
