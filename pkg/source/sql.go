@@ -6,6 +6,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/xwb1989/sqlparser"
+	"strings"
 	"time"
 )
 
@@ -39,10 +40,11 @@ type (
 		c  *Config
 		Db *sql.DB
 	}
+
 	SQLId struct {
 		Name  string `yaml:"name,omitempty" json:"name,omitempty,optional,default=id"`
 		Index int    `yaml:"index,omitempty" json:"index,omitempty,optional,default=0"`
-		Alais string `yaml:"alias,omitempty" json:"alias,omitempty,optional"`
+		Alias string `yaml:"alias,omitempty" json:"alias,omitempty,optional"`
 	}
 )
 
@@ -115,34 +117,9 @@ func (s *SQLSource) Config() *Config {
 }
 
 func (s *SQLSource) Size() (total int64, err error) {
-	table := s.Config().SQL.DbTable
-	var countSQL string
-	if table.Count != "" {
-		countSQL = table.Count
-	} else if table.Query != "" {
-		stmt, err := sqlparser.Parse(table.Query)
-		if err != nil {
-			return 0, err
-		}
-		expr := sqlparser.AliasedExpr{
-			Expr: &sqlparser.FuncExpr{
-				Name:  sqlparser.NewColIdent("count"),
-				Exprs: sqlparser.SelectExprs{&sqlparser.AliasedExpr{Expr: sqlparser.NewStrVal([]byte("*"))}},
-			},
-			As: sqlparser.NewColIdent("total"),
-		}
-		selectStmt := stmt.(*sqlparser.Select)
-		selectStmt.SelectExprs = sqlparser.SelectExprs{
-			&expr,
-		}
-		buf := sqlparser.NewTrackedBuffer(nil)
-		selectStmt.Format(buf)
-		countSQL = buf.String()
-	} else {
-		countSQL = "SELECT count(1) total FROM " + s.Config().SQL.DbTable.Name + " WHERE 1 = 1"
-		if s.Config().SQL.DbTable.Filter != "" {
-			countSQL += " AND " + s.Config().SQL.DbTable.Filter
-		}
+	countSQL, err := s.BuildCountSQL()
+	if err != nil {
+		return
 	}
 	rows, err := s.Db.Query(countSQL)
 	if err != nil {
@@ -175,7 +152,7 @@ func (s *SQLSource) validate() error {
 	}
 	c := s.Config().SQL
 	if len(c.DbTable.Fields) != 0 && c.DbTable.Fields[c.DbTable.Id.Index] != c.DbTable.Id.Name {
-		return errors.New("primary key must be first field")
+		return errors.New("must contains primary key field")
 	}
 	if c.DbTable.Query == "" {
 		if c.DbTable.Name == "" || len(c.DbTable.Fields) == 0 {
@@ -185,22 +162,12 @@ func (s *SQLSource) validate() error {
 	return nil
 }
 
-func (c *SQLConfig) String() string {
-	return fmt.Sprintf("sql %s/%s", c.Endpoint, c.DbTable.Name)
-}
-
-func (t *SQLTable) PrimaryKey() string {
-	if t.Id.Alais != "" {
-		return t.Id.Alais
-	}
-	return t.Id.Name
-}
-
-func (t *SQLTable) CountSQL() (countSQL string, err error) {
-	if t.Count != "" {
-		return t.Count, nil
-	} else if t.Query != "" {
-		stmt, err := sqlparser.Parse(t.Query)
+func (s *SQLSource) BuildCountSQL() (countSQL string, err error) {
+	table := s.Config().SQL.DbTable
+	if table.Count != "" {
+		return table.Count, nil
+	} else if table.Query != "" {
+		stmt, err := sqlparser.Parse(table.Query)
 		if err != nil {
 			return "", err
 		}
@@ -219,10 +186,40 @@ func (t *SQLTable) CountSQL() (countSQL string, err error) {
 		selectStmt.Format(buf)
 		countSQL = buf.String()
 	} else {
-		countSQL = "SELECT count(1) total FROM " + t.Name + " WHERE 1 = 1"
-		if t.Filter != "" {
-			countSQL += " AND " + t.Filter
+		countSQL = "SELECT count(1) total FROM " + table.Name + " WHERE 1 = 1"
+		if table.Filter != "" {
+			countSQL += " AND " + table.Filter
 		}
 	}
 	return
+}
+
+func (s *SQLSource) BuildQuerySQL(lastId string, batch int) string {
+	table := s.Config().SQL.DbTable
+	var statement string
+	if table.Query != "" {
+		statement = table.Query
+	} else {
+		statement = "SELECT `" + strings.Join(table.Fields, "`,`") + "` FROM " + table.Name + " WHERE 1 = 1"
+		if table.Filter != "" {
+			statement += " AND " + table.Filter
+		}
+	}
+	key := table.PrimaryKey()
+	if lastId != "" {
+		statement += " AND " + key + " > '" + lastId + "'"
+	}
+	statement += " ORDER BY " + key + " ASC LIMIT " + fmt.Sprintf("%d", batch)
+	return statement
+}
+
+func (c *SQLConfig) String() string {
+	return fmt.Sprintf("sql %s/%s", c.Endpoint, c.DbTable.Name)
+}
+
+func (t *SQLTable) PrimaryKey() string {
+	if t.Id.Alias != "" {
+		return t.Id.Alias
+	}
+	return t.Id.Name
 }

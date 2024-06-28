@@ -4,12 +4,10 @@ package reader
 import (
 	"database/sql"
 	stderrors "errors"
-	"fmt"
 	"github.com/lucky-xin/nebula-importer/pkg/logger"
 	"github.com/lucky-xin/nebula-importer/pkg/source"
 	"github.com/lucky-xin/nebula-importer/pkg/spec"
 	"io"
-	"strings"
 )
 
 type (
@@ -162,7 +160,7 @@ func (r *sqlBatchReader) Size() (int64, error) {
 }
 
 func (r *sqlBatchReader) ReadBatch() (n int, records spec.Records, err error) {
-	querySql := r.buildStatement(r.s)
+	querySql := r.s.BuildQuerySQL(r.lastId, r.batch)
 	rows, err := r.s.Db.Query(querySql)
 	if err != nil {
 		return 0, nil, err
@@ -209,23 +207,4 @@ func (r *sqlBatchReader) ReadBatch() (n int, records spec.Records, err error) {
 	}
 	r.lastId = records[size-1][r.s.Config().SQL.DbTable.Id.Index]
 	return n, records, nil
-}
-
-func (r *sqlBatchReader) buildStatement(sqlSource *source.SQLSource) string {
-	table := sqlSource.Config().SQL.DbTable
-	var statement string
-	if table.Query != "" {
-		statement = table.Query
-	} else {
-		statement = "SELECT `" + strings.Join(table.Fields, "`,`") + "` FROM " + table.Name + " WHERE 1 = 1"
-		if table.Filter != "" {
-			statement += " AND " + table.Filter
-		}
-	}
-	key := table.PrimaryKey()
-	if r.lastId != "" {
-		statement += " AND " + key + " > '" + r.lastId + "'"
-	}
-	statement += " ORDER BY " + key + " ASC LIMIT " + fmt.Sprintf("%d", r.batch)
-	return statement
 }
