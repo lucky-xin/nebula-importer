@@ -156,7 +156,7 @@ func (s *SQLSource) validate() error {
 	}
 	if c.DbTable.Query == "" {
 		if c.DbTable.Name == "" || len(c.DbTable.Fields) == 0 {
-			return errors.New("name and fields must not be empty,when sql is empty")
+			return errors.New("name and fields must not be empty, when sql is empty")
 		}
 	}
 	return nil
@@ -185,32 +185,31 @@ func (s *SQLSource) BuildCountSQL() (countSQL string, err error) {
 		buf := sqlparser.NewTrackedBuffer(nil)
 		selectStmt.Format(buf)
 		countSQL = buf.String()
+	} else if table.Filter != "" {
+		countSQL = fmt.Sprintf("SELECT COUNT(1) total FROM `%s` WHERE %s", table.Name, table.Filter)
 	} else {
-		countSQL = "SELECT count(1) total FROM " + table.Name + " WHERE 1 = 1"
-		if table.Filter != "" {
-			countSQL += " AND " + table.Filter
-		}
+		countSQL = fmt.Sprintf("SELECT COUNT(1) total FROM `%s` WHERE 1 = 1", table.Name)
 	}
 	return
 }
 
 func (s *SQLSource) BuildQuerySQL(lastId string, batch int) string {
-	table := s.Config().SQL.DbTable
-	var statement string
-	if table.Query != "" {
-		statement = table.Query
+	t := s.Config().SQL.DbTable
+	var stmt string
+	if t.Query != "" {
+		stmt = t.Query
+	} else if t.Filter != "" {
+		stmt = fmt.Sprintf("SELECT `%s` FROM `%s` WHERE %s", strings.Join(t.Fields, "`,`"), t.Name, t.Filter)
 	} else {
-		statement = "SELECT `" + strings.Join(table.Fields, "`,`") + "` FROM " + table.Name + " WHERE 1 = 1"
-		if table.Filter != "" {
-			statement += " AND " + table.Filter
-		}
+		stmt = fmt.Sprintf("SELECT `%s` FROM `%s` WHERE 1 = 1", strings.Join(t.Fields, "`,`"), t.Name)
 	}
-	key := table.PrimaryKey()
+
+	key := t.PrimaryKey()
 	if lastId != "" {
-		statement += " AND " + key + " > '" + lastId + "'"
+		stmt += fmt.Sprintf(" AND `%s` > '%s'", key, lastId)
 	}
-	statement += " ORDER BY " + key + " ASC LIMIT " + fmt.Sprintf("%d", batch)
-	return statement
+	stmt += fmt.Sprintf(" ORDER BY `%s` ASC LIMIT %d", key, batch)
+	return stmt
 }
 
 func (c *SQLConfig) String() string {
