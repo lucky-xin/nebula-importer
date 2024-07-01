@@ -4,6 +4,7 @@ package reader
 import (
 	"database/sql"
 	stderrors "errors"
+	"fmt"
 	"github.com/lucky-xin/nebula-importer/pkg/logger"
 	"github.com/lucky-xin/nebula-importer/pkg/source"
 	"github.com/lucky-xin/nebula-importer/pkg/spec"
@@ -161,12 +162,14 @@ func (r *sqlBatchReader) Size() (int64, error) {
 
 func (r *sqlBatchReader) ReadBatch() (n int, records spec.Records, err error) {
 	querySql := r.s.BuildQuerySQL(r.lastId, r.batch)
+	r.logger.Debug(fmt.Sprintf("query sql: %s", querySql))
 	rows, err := r.s.Db.Query(querySql)
 	if err != nil {
 		return 0, nil, err
 	}
 	cols, err := rows.Columns()
 	if err != nil {
+		r.logger.Error(fmt.Sprintf("query error: %s", err.Error()))
 		return 0, nil, err
 	}
 	var lastId string
@@ -206,6 +209,7 @@ func (r *sqlBatchReader) ReadBatch() (n int, records spec.Records, err error) {
 	}(rows)
 	size := len(records)
 	if size == 0 {
+		r.logger.Debug("not found data")
 		return 0, nil, io.EOF
 	}
 	return n, records, nil
