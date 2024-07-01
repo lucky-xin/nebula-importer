@@ -7,7 +7,7 @@ require (
 	github.com/agiledragon/gomonkey/v2 v2.11.0
 	github.com/aliyun/aliyun-oss-go-sdk v3.0.2+incompatible
 	github.com/avast/retry-go/v4 v4.6.0
-	github.com/aws/aws-sdk-go v1.54.10
+	github.com/aws/aws-sdk-go v1.54.11
 	github.com/cenkalti/backoff/v4 v4.3.0
 	github.com/colinmarc/hdfs/v2 v2.4.0
 	github.com/dustin/go-humanize v1.0.1
