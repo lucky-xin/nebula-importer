@@ -169,6 +169,7 @@ func (r *sqlBatchReader) ReadBatch() (n int, records spec.Records, err error) {
 	if err != nil {
 		return 0, nil, err
 	}
+	var lastId string
 	for rows.Next() {
 		values := make([]interface{}, len(cols))
 		for i := range values {
@@ -191,6 +192,7 @@ func (r *sqlBatchReader) ReadBatch() (n int, records spec.Records, err error) {
 				vals = append(vals, "")
 			}
 		}
+		lastId = vals[r.s.Config().SQL.DbTable.Id.Index]
 		result, err := r.c.Apply(r.Source(), vals)
 		if err != nil {
 			return 0, nil, err
@@ -198,6 +200,7 @@ func (r *sqlBatchReader) ReadBatch() (n int, records spec.Records, err error) {
 		n++
 		records = append(records, result...)
 	}
+	r.lastId = lastId
 	defer func(rows *sql.Rows) {
 		_ = rows.Close()
 	}(rows)
@@ -205,6 +208,5 @@ func (r *sqlBatchReader) ReadBatch() (n int, records spec.Records, err error) {
 	if size == 0 {
 		return 0, nil, io.EOF
 	}
-	r.lastId = records[size-1][r.s.Config().SQL.DbTable.Id.Index]
 	return n, records, nil
 }
