@@ -206,9 +206,9 @@ func (s *SQLSource) BuildQuerySQL(lastId string, batch int) string {
 
 	key := t.PrimaryKey()
 	if lastId != "" {
-		stmt += fmt.Sprintf(" AND `%s` > '%s'", key, lastId)
+		stmt += fmt.Sprintf(" AND %s > '%s'", key, lastId)
 	}
-	stmt += fmt.Sprintf(" ORDER BY `%s` ASC LIMIT %d", key, batch)
+	stmt += fmt.Sprintf(" ORDER BY %s ASC LIMIT %d", key, batch)
 	return stmt
 }
 
@@ -220,5 +220,5 @@ func (t *SQLTable) PrimaryKey() string {
 	if t.Id.Alias != "" {
 		return t.Id.Alias
 	}
-	return t.Id.Name
+	return fmt.Sprintf("`%s`", t.Id.Name)
 }
