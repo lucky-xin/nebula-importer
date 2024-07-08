@@ -80,3 +80,7 @@ func (t ValueType) Equal(vt ValueType) bool {
 func (t ValueType) String() string {
 	return string(t)
 }
+
+func ValueTypeOf(text string) ValueType {
+	return ValueType(strings.ToUpper(text))
+}
