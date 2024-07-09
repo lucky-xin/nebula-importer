@@ -82,5 +82,8 @@ func (t ValueType) String() string {
 }
 
 func ValueTypeOf(text string) ValueType {
+	if strings.HasPrefix(text, ValueTypeFixedString.String()) {
+		return ValueTypeFixedString
+	}
 	return ValueType(strings.ToUpper(text))
 }
