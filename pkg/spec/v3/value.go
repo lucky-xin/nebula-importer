@@ -52,9 +52,10 @@ var (
 	}
 
 	supportedNodeIDValueTypes = map[ValueType]struct{}{
-		ValueTypeInt:    {},
-		ValueTypeInt64:  {},
-		ValueTypeString: {},
+		ValueTypeInt:         {},
+		ValueTypeInt64:       {},
+		ValueTypeString:      {},
+		ValueTypeFixedString: {},
 	}
 )
 
