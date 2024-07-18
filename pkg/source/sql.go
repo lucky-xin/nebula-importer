@@ -82,8 +82,8 @@ func (s *SQLSource) Connect(dbname string) (db *sql.DB, err error) {
 	db.SetMaxOpenConns(conf.MaxConnections)
 	db.SetMaxIdleConns(conf.MaxIdleConns)
 	// mysql default conn timeout=8h, should < mysql_timeout
-	db.SetConnMaxIdleTime(time.Duration(conf.MaxIdleTimeMills) * time.Millisecond)
-	db.SetConnMaxLifetime(time.Duration(conf.MaxLifetimeMills) * time.Millisecond)
+	db.SetConnMaxIdleTime(time.Duration(conf.MaxIdleTimeMills))
+	db.SetConnMaxLifetime(time.Duration(conf.MaxLifetimeMills))
 	err = db.Ping()
 	if err != nil {
 		return
