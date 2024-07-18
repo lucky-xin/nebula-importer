@@ -378,7 +378,6 @@ func (m *defaultManager) submitImporterTask(n int, records spec.Records, importe
 		var faileds []spec.Record
 		var succeededs []spec.Record
 		if size > 0 {
-
 			for _, i := range importers {
 				times := size / m.batch
 				if size%m.batch != 0 || times == 0 {
@@ -397,8 +396,10 @@ func (m *defaultManager) submitImporterTask(n int, records spec.Records, importe
 						m.onRequestFailed(subs)
 						faileds = append(faileds, subs...)
 						// do not return, continue the subsequent importer.
-					} else if result.RecordNum > 0 {
-						m.onRequestSucceeded(result)
+					} else {
+						if result.RecordNum > 0 {
+							m.onRequestSucceeded(result)
+						}
 						succeededs = append(succeededs, subs...)
 					}
 				}
