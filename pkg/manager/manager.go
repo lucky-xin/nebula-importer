@@ -354,7 +354,20 @@ func (m *defaultManager) loopImport(s source.Source, r reader.BatchRecordReader,
 				}
 				return nil
 			}
-			m.submitImporterTask(n, records, importers...)
+			size := len(records)
+			times := size / m.batch
+			if size%m.batch != 0 || times == 0 {
+				times++
+			}
+			for j := range times {
+				start := j * m.batch
+				end := (j + 1) * m.batch
+				if end > size {
+					end = size
+				}
+				subs := records[start:end]
+				m.submitImporterTask(n, subs, importers...)
+			}
 		}
 	}
 }
@@ -378,26 +391,14 @@ func (m *defaultManager) submitImporterTask(n int, records spec.Records, importe
 		size := len(records)
 		if size > 0 {
 			for _, i := range importers {
-				times := size / m.batch
-				if size%m.batch != 0 || times == 0 {
-					times++
-				}
-				for j := range times {
-					start := j * m.batch
-					end := (j + 1) * m.batch
-					if end > size {
-						end = size
-					}
-					subs := records[start:end]
-					result, err := i.Import(subs...)
-					if err != nil {
-						m.logError(err, "manager: import failed")
-						m.onRequestFailed(records)
-						isFailed = true
-						// do not return, continue the subsequent importer.
-					} else if result.RecordNum > 0 {
-						m.onRequestSucceeded(result)
-					}
+				result, err := i.Import(records...)
+				if err != nil {
+					m.logError(err, "manager: import failed")
+					m.onRequestFailed(records)
+					isFailed = true
+					// do not return, continue the subsequent importer.
+				} else if result.RecordNum > 0 {
+					m.onRequestSucceeded(result)
 				}
 			}
 		}
