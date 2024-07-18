@@ -99,10 +99,10 @@ func (s *SQLSource) setDefaultConfig() {
 		s.c.SQL.DriverName = "mysql"
 	}
 	if s.c.SQL.MaxConnections == 0 {
-		s.c.SQL.MaxConnections = 2000
+		s.c.SQL.MaxConnections = 400
 	}
 	if s.c.SQL.MaxIdleConns == 0 {
-		s.c.SQL.MaxIdleConns = 2000
+		s.c.SQL.MaxIdleConns = 10
 	}
 	if s.c.SQL.MaxLifetimeMills == 0 {
 		s.c.SQL.MaxLifetimeMills = 3600000
