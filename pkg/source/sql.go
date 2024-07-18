@@ -21,7 +21,7 @@ type (
 		Password         string   `yaml:"password,omitempty" json:"password"`
 		UrlQuery         string   `yaml:"urlQuery,omitempty" json:"urlQuery,omitempty,optional"`
 		DriverName       string   `yaml:"driverName,omitempty" json:"driverName,omitempty,optional,default=mysql"`
-		MaxConnections   int      `yaml:"maxConnections,omitempty" json:"maxConnections,omitempty,optional,default=400"`
+		MaxConnections   int      `yaml:"maxConnections,omitempty" json:"maxConnections,omitempty,optional,default=100"`
 		MaxIdleConns     int      `yaml:"maxIdleConns,omitempty" json:"maxIdleConns,omitempty,optional,default=20"`
 		MaxLifetimeMills int      `yaml:"maxLifetimeMills,omitempty" json:"maxLifetimeMills,omitempty,optional,default=3600000000000"`
 		MaxIdleTimeMills int      `yaml:"maxIdleTimeMills,omitempty" json:"maxIdleTimeMills,omitempty,optional,default=30000000000"`
@@ -99,7 +99,7 @@ func (s *SQLSource) setDefaultConfig() {
 		s.c.SQL.DriverName = "mysql"
 	}
 	if s.c.SQL.MaxConnections == 0 {
-		s.c.SQL.MaxConnections = 400
+		s.c.SQL.MaxConnections = 100
 	}
 	if s.c.SQL.MaxIdleConns == 0 {
 		s.c.SQL.MaxIdleConns = 10
