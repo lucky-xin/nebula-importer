@@ -4,9 +4,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/xwb1989/sqlparser"
 	"testing"
+	"time"
 )
 
 func TestSQLSource(t *testing.T) {
+	println(time.Hour)
+	println(time.Second * 30)
 	sql := "SELECT count(1) total FROM t_vehicle_series_odx_address addr LEFT JOIN t_vehicle_series_ecu_las las ON las.vehicle_series_code = addr.vehicle_series_code WHERE 1 = 1"
 	stmt, err := sqlparser.Parse(sql)
 	if err != nil {

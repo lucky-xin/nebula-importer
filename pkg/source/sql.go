@@ -23,8 +23,8 @@ type (
 		DriverName       string   `yaml:"driverName,omitempty" json:"driverName,omitempty,optional,default=mysql"`
 		MaxConnections   int      `yaml:"maxConnections,omitempty" json:"maxConnections,omitempty,optional,default=2000"`
 		MaxIdleConns     int      `yaml:"maxIdleConns,omitempty" json:"maxIdleConns,omitempty,optional,default=50"`
-		MaxLifetimeMills int      `yaml:"maxLifetimeMills,omitempty" json:"maxLifetimeMills,omitempty,optional,default=3600000"`
-		MaxIdleTimeMills int      `yaml:"maxIdleTimeMills,omitempty" json:"maxIdleTimeMills,omitempty,optional,default=600000"`
+		MaxLifetimeMills int      `yaml:"maxLifetimeMills,omitempty" json:"maxLifetimeMills,omitempty,optional,default=3600000000000"`
+		MaxIdleTimeMills int      `yaml:"maxIdleTimeMills,omitempty" json:"maxIdleTimeMills,omitempty,optional,default=30000000000"`
 	}
 
 	SQLTable struct {
@@ -105,10 +105,10 @@ func (s *SQLSource) setDefaultConfig() {
 		s.c.SQL.MaxIdleConns = 10
 	}
 	if s.c.SQL.MaxLifetimeMills == 0 {
-		s.c.SQL.MaxLifetimeMills = 3600000
+		s.c.SQL.MaxLifetimeMills = 3600000000000
 	}
 	if s.c.SQL.MaxLifetimeMills == 0 {
-		s.c.SQL.MaxIdleTimeMills = 6000
+		s.c.SQL.MaxIdleTimeMills = 30000000000
 	}
 }
 
