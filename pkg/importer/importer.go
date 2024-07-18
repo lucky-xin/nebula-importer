@@ -2,7 +2,6 @@
 package importer
 
 import (
-	errors2 "errors"
 	"github.com/avast/retry-go/v4"
 	"github.com/lucky-xin/nebula-importer/pkg/spec"
 	"time"
@@ -114,16 +113,17 @@ func (i *defaultImporter) Import(records ...spec.Record) (*ImportResp, error) {
 			if e != nil {
 				return nil, e
 			}
-			if !r.IsSucceed() && r.IsRetryMoreError() {
-				return nil, errors.ErrContinue
+			e = r.GetError()
+			if !r.IsSucceed() || e != nil {
+				return nil, e
 			}
 			return r, e
 		},
 		retry.Attempts(5),
 		retry.RetryIf(func(err error) bool {
-			return errors2.As(err, &errors.ErrContinue)
+			return err != nil
 		}),
-		retry.Delay(time.Second*1),
+		retry.Delay(time.Millisecond*500),
 		retry.MaxDelay(time.Second*10),
 	)
 	if err != nil {
