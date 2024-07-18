@@ -178,6 +178,7 @@ func (r *sqlBatchReader) ReadBatch() (n int, records spec.Records, err error) {
 		for i := range values {
 			values[i] = &sql.NullString{}
 		}
+		n++
 		err = rows.Scan(values...)
 		if err != nil {
 			if ce := new(continueError); stderrors.As(err, &ce) {
@@ -200,17 +201,15 @@ func (r *sqlBatchReader) ReadBatch() (n int, records spec.Records, err error) {
 		if err != nil {
 			return 0, nil, err
 		}
-		n++
 		records = append(records, result...)
 	}
 	r.lastId = lastId
 	defer func(rows *sql.Rows) {
 		_ = rows.Close()
 	}(rows)
-	size := len(records)
-	if size == 0 {
+	if n == 0 {
 		r.logger.Debug("not found data")
-		return 0, nil, io.EOF
+		return n, nil, io.EOF
 	}
 	return n, records, nil
 }
