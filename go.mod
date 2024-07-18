@@ -7,7 +7,7 @@ require (
 	github.com/agiledragon/gomonkey/v2 v2.11.0
 	github.com/aliyun/aliyun-oss-go-sdk v3.0.2+incompatible
 	github.com/avast/retry-go/v4 v4.6.0
-	github.com/aws/aws-sdk-go v1.54.17
+	github.com/aws/aws-sdk-go v1.54.19
 	github.com/cenkalti/backoff/v4 v4.3.0
 	github.com/colinmarc/hdfs/v2 v2.4.0
 	github.com/dustin/go-humanize v1.0.1
@@ -35,10 +35,10 @@ require (
 
 require (
 	cloud.google.com/go v0.115.0 // indirect
-	cloud.google.com/go/auth v0.7.0 // indirect
-	cloud.google.com/go/auth/oauth2adapt v0.2.2 // indirect
-	cloud.google.com/go/compute/metadata v0.4.0 // indirect
-	cloud.google.com/go/iam v1.1.10 // indirect
+	cloud.google.com/go/auth v0.7.1 // indirect
+	cloud.google.com/go/auth/oauth2adapt v0.2.3 // indirect
+	cloud.google.com/go/compute/metadata v0.5.0 // indirect
+	cloud.google.com/go/iam v1.1.11 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/fclairamb/go-log v0.5.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
@@ -81,9 +81,9 @@ require (
 	golang.org/x/text v0.16.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
 	golang.org/x/tools v0.21.1-0.20240508182429-e35e4ccd0d2d // indirect
-	google.golang.org/genproto v0.0.0-20240709173604-40e1e62336c5 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20240709173604-40e1e62336c5 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240709173604-40e1e62336c5 // indirect
+	google.golang.org/genproto v0.0.0-20240711142825-46eb208f015d // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20240711142825-46eb208f015d // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240711142825-46eb208f015d // indirect
 	google.golang.org/grpc v1.65.0 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
