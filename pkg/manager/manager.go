@@ -354,20 +354,7 @@ func (m *defaultManager) loopImport(s source.Source, r reader.BatchRecordReader,
 				}
 				return nil
 			}
-			size := len(records)
-			times := size / m.batch
-			if size%m.batch != 0 || times == 0 {
-				times++
-			}
-			for j := range times {
-				start := j * m.batch
-				end := (j + 1) * m.batch
-				if end > size {
-					end = size
-				}
-				subs := records[start:end]
-				m.submitImporterTask(n, subs, importers...)
-			}
+			m.submitImporterTask(n, records, importers...)
 		}
 	}
 }
@@ -387,27 +374,39 @@ func (m *defaultManager) submitImporterTask(n int, records spec.Records, importe
 		defer m.importerWaitGroup.Done()
 		defer importersDone()
 
-		var isFailed bool
 		size := len(records)
+		var faileds []spec.Record
+		var succeededs []spec.Record
 		if size > 0 {
+
 			for _, i := range importers {
-				result, err := i.Import(records...)
-				if err != nil {
-					m.logError(err, "manager: import failed")
-					m.onRequestFailed(records)
-					isFailed = true
-					// do not return, continue the subsequent importer.
-				} else if result.RecordNum > 0 {
-					m.onRequestSucceeded(result)
+				times := size / m.batch
+				if size%m.batch != 0 || times == 0 {
+					times++
+				}
+				for j := range times {
+					start := j * m.batch
+					end := (j + 1) * m.batch
+					if end > size {
+						end = size
+					}
+					subs := records[start:end]
+					result, err := i.Import(subs...)
+					if err != nil {
+						m.logError(err, "manager: import failed")
+						m.onRequestFailed(subs)
+						faileds = append(faileds, subs...)
+						// do not return, continue the subsequent importer.
+					} else if result.RecordNum > 0 {
+						m.onRequestSucceeded(result)
+						succeededs = append(succeededs, subs...)
+					}
 				}
 			}
 		}
 		m.logger.Debug(fmt.Sprintf("manager: import %d records, n:%d successfully", size, n))
-		if isFailed {
-			m.onFailed(n, records)
-		} else {
-			m.onSucceeded(n, records)
-		}
+		m.onFailed(0, faileds)
+		m.onSucceeded(n, succeededs)
 	}); err != nil {
 		importersDone()
 		m.importerWaitGroup.Done()
