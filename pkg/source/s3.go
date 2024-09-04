@@ -14,13 +14,14 @@ var _ Source = (*s3Source)(nil)
 
 type (
 	S3Config struct {
-		Endpoint        string `yaml:"endpoint,omitempty" json:"endpoint,omitempty,optional"`
-		Region          string `yaml:"region,omitempty" json:"region,omitempty,optional"`
-		AccessKeyID     string `yaml:"accessKeyID,omitempty" json:"accessKeyID,omitempty,optional"`
-		AccessKeySecret string `yaml:"accessKeySecret,omitempty" json:"accessKeySecret,omitempty,optional"`
-		Token           string `yaml:"token,omitempty" json:"token,omitempty,optional"`
-		Bucket          string `yaml:"bucket,omitempty" json:"bucket,omitempty,optional"`
-		Key             string `yaml:"key,omitempty" json:"key,omitempty,optional"`
+		Endpoint         string `yaml:"endpoint,omitempty" json:"endpoint,omitempty,optional"`
+		Region           string `yaml:"region,omitempty" json:"region,omitempty,optional"`
+		AccessKeyID      string `yaml:"accessKeyID,omitempty" json:"accessKeyID,omitempty,optional"`
+		AccessKeySecret  string `yaml:"accessKeySecret,omitempty" json:"accessKeySecret,omitempty,optional"`
+		S3ForcePathStyle bool   `yaml:"s3ForcePathStyle,omitempty" json:"s3ForcePathStyle,omitempty,optional,default=true"`
+		Token            string `yaml:"token,omitempty" json:"token,omitempty,optional"`
+		Bucket           string `yaml:"bucket,omitempty" json:"bucket,omitempty,optional"`
+		Key              string `yaml:"key,omitempty" json:"key,omitempty,optional"`
 	}
 
 	s3Source struct {
@@ -43,7 +44,7 @@ func (s *s3Source) Open() error {
 	awsConfig := &aws.Config{
 		Region:           aws.String(s.c.S3.Region),
 		Endpoint:         aws.String(s.c.S3.Endpoint),
-		S3ForcePathStyle: aws.Bool(true),
+		S3ForcePathStyle: aws.Bool(s.Config().S3.S3ForcePathStyle),
 	}
 
 	if s.c.S3.AccessKeyID != "" || s.c.S3.AccessKeySecret != "" || s.c.S3.Token != "" {
