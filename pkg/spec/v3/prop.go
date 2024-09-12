@@ -1,6 +1,8 @@
 package specv3
 
 import (
+	"github.com/expr-lang/expr"
+	"github.com/expr-lang/expr/vm"
 	"github.com/lucky-xin/nebula-importer/pkg/errors"
 	"github.com/lucky-xin/nebula-importer/pkg/picker"
 	"github.com/lucky-xin/nebula-importer/pkg/utils"
@@ -15,9 +17,11 @@ type (
 		NullValue          string    `yaml:"nullValue" json:"nullValue,omitempty,optional"`
 		AlternativeIndices []int     `yaml:"alternativeIndices,omitempty" json:"alternativeIndices,omitempty,optional"`
 		DefaultValue       *string   `yaml:"defaultValue" json:"defaultValue,omitempty,optional"`
+		Expr               *string   `yaml:"expr" json:"expr,omitempty,optional"`
 
 		convertedName string
 		picker        picker.Picker
+		exprProgram   *vm.Program
 	}
 
 	Props []*Prop
@@ -39,6 +43,16 @@ func (p *Prop) Validate() error {
 	}
 	if err := p.initPicker(); err != nil {
 		return p.importError(err, "init picker failed")
+	}
+	if p.Expr != nil {
+		var env = map[string]string{
+			"val": "",
+		}
+		program, err := expr.Compile(*p.Expr, expr.Env(env), expr.AsBool())
+		if err != nil {
+			return err
+		}
+		p.exprProgram = program
 	}
 	return nil
 }
@@ -119,6 +133,18 @@ func (ps Props) SetValueList(record Record) ([]string, error) {
 		value, err := prop.SetValue(record)
 		if err != nil {
 			return nil, err
+		}
+		if prop.exprProgram != nil {
+			var env = map[string]string{
+				"val": value,
+			}
+			if out, err := expr.Run(prop.exprProgram, env); err == nil {
+				if !out.(bool) {
+					continue
+				}
+			} else {
+				return nil, err
+			}
 		}
 		setValueList = append(setValueList, value)
 	}
