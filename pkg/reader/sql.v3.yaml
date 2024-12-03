@@ -1,0 +1,146 @@
+client:
+  version: v3
+  address: "gzv-k8s-ins-1.piston.ink:39669"
+  user: root
+  password: nebula
+  concurrencyPerAddress: 10
+  reconnectInitialInterval: 1s
+  retry: 3
+  retryInitialInterval: 1s
+
+manager:
+  spaceName: piston
+  batch: 128
+  readerConcurrency: 50
+  importerConcurrency: 512
+  statsInterval: 10s
+  hooks:
+    before:
+      - statements:
+          - |
+            CREATE SPACE IF NOT EXISTS `piston`(PARTITION_NUM = 20, REPLICA_FACTOR = 1, vid_type = STRING);
+            USE `piston`;
+            CREATE TAG IF NOT EXISTS `sys_user`(`id` INT64, `username` STRING, `alias` STRING, `first_letter` STRING, `password` STRING, `phone` STRING, `dept_id` INT64, `lock_flag` INT64, `del_flag` INT64, `tenant_id` INT64, `email` STRING, `status` INT64, `effective_date` DATETIME, `expiration_date DATETIME, sex INT64, `creator_id` INT64, `job` STRING, `avatar` STRING, `create_time` DATETIME, `update_time` DATETIME);
+        wait: 10s
+
+log:
+  level: INFO
+  console: true
+  files:
+    - nebula-importer.log
+
+sources:
+  - sql:
+      endpoint: gzv-dev-maria-1.piston.ink:3306
+      username: pistonint_upms
+      password: cCFzQHQkbyRuLmkubi50I0AhbXlzc6Ww
+      dbName: pistonint_upms
+      dbTable:
+        primaryKey: user_id
+        name: sys_user
+        fieldMap:
+          user_id: id
+        fields:
+          - user_id
+          - username
+          - alias
+          - first_letter
+          - password
+          - phone
+          - dept_id
+          - lock_flag
+          - del_flag
+          - tenant_id
+          - email
+          - status
+          - effective_date
+          - expiration_date
+          - sex
+          - creator_id
+          - job
+          - avatar
+          - create_time
+          - update_time
+    tags:
+      - name: Signal
+        mode: UPSERT
+        filter:
+          expr: (Record[0] != "")
+        id:
+          type: "INT64"
+          index: 0
+        ignoreExistedIndex: true
+        props:
+          - name: "username"
+            type: "STRING"
+            index: 1
+          - name: "alias"
+            type: "STRING"
+            index: 2
+          - name: "first_letter"
+            type: "STRING"
+            index: 3
+            nullable: true
+          - name: "password"
+            type: "STRING"
+            index: 4
+            nullable: true
+            nullValue: _NULL_
+          - name: "phone"
+            type: "STRING"
+            index: 5
+          - name: "dept_id"
+            type: "INT64"
+            index: 6
+          - name: "lock_flag"
+            type: "INT32"
+            index: 7
+            nullable: true
+          - name: "del_flag"
+            type: "INT32"
+            index: 8
+            nullable: true
+          - name: "tenant_id"
+            type: "INT32"
+            index: 9
+            nullable: true
+          - name: "email"
+            type: "STRING"
+            index: 10
+            nullable: true
+          - name: "status"
+            type: "INT32"
+            index: 11
+            nullable: true
+          - name: "effective_date"
+            type: "DATETIME"
+            index: 12
+            nullable: true
+          - name: "expiration_date"
+            type: "DATETIME"
+            index: 13
+            nullable: true
+          - name: "sex"
+            type: "DATETIME"
+            index: 14
+            nullable: true
+          - name: "creator_id"
+            type: "INT32"
+            index: 15
+            nullable: true
+          - name: "job"
+            type: "STRING"
+            index: 16
+            nullable: true
+          - name: "avatar"
+            type: "STRING"
+            index: 17
+            nullable: true
+          - name: "create_time"
+            type: "DATETIME"
+            index: 18
+            nullable: true
+          - name: "update_time"
+            type: "DATETIME"
+            index: 19
+            nullable: true
