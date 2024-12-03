@@ -130,6 +130,7 @@ func (tc *TaskConfig) CreateDb() (gormDB *gorm.DB, err error) {
 		return
 	}
 	tc.gormDB = openDB
+	gormDB = openDB
 	return
 }
 
