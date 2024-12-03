@@ -1,5 +1,7 @@
 package picker
 
+import "strings"
+
 var _ Converter = NonConverter{}
 
 type (
@@ -31,6 +33,8 @@ func (FunctionIntConverter) Convert(v *Value) (*Value, error) {
 func (FunctionFloatConverter) Convert(v *Value) (*Value, error) {
 	if v.Val == "null" || v.Val == "NULL" || v.Val == "" {
 		v.Val = "0.0"
+	} else if !strings.Contains(v.Val, ".") {
+		v.Val = v.Val + ".0"
 	}
 	return v, nil
 }
@@ -38,6 +42,8 @@ func (FunctionFloatConverter) Convert(v *Value) (*Value, error) {
 func (FunctionDoubleConverter) Convert(v *Value) (*Value, error) {
 	if v.Val == "null" || v.Val == "NULL" || v.Val == "" {
 		v.Val = "0.0"
+	} else if !strings.Contains(v.Val, ".") {
+		v.Val = v.Val + ".0"
 	}
 	return v, nil
 }
