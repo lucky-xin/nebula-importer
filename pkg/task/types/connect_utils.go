@@ -113,7 +113,10 @@ func InitSQLDB(config *DB, gormDB *gorm.DB) {
 		for i := range values {
 			dst = append(dst, i)
 		}
-		err = gormDB.AutoMigrate(dst)
+		if len(dst) == 0 {
+			return
+		}
+		err = gormDB.AutoMigrate(dst...)
 		if err != nil {
 			zap.L().Fatal(fmt.Sprintf("init taskInfo table fail: %s", err))
 			panic(err)
