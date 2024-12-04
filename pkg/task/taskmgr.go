@@ -165,7 +165,6 @@ func (mgr *TaskMgr) setDefault(cfg *types.ImportTaskV2Config) {
 		cfg.Client.Address = mgr.config.Nebula.Address
 		cfg.Client.User = mgr.config.Nebula.User
 		cfg.Client.Password = mgr.config.Nebula.Password
-		cfg.Client.ConcurrencyPerAddress = 8
 		cfg.Client.ReconnectInitialInterval = 5000
 		cfg.Client.Retry = 3
 		cfg.Client.RetryInitialInterval = 5000
