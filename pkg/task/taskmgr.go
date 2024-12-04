@@ -7,6 +7,7 @@ import (
 	"github.com/dcron-contrib/commons/dlog"
 	"github.com/dcron-contrib/redisdriver"
 	"github.com/libi/dcron"
+	configbase "github.com/lucky-xin/nebula-importer/pkg/config/base"
 	configv3 "github.com/lucky-xin/nebula-importer/pkg/config/v3"
 	"github.com/lucky-xin/nebula-importer/pkg/task/db"
 	"github.com/lucky-xin/nebula-importer/pkg/task/ecode"
@@ -127,6 +128,17 @@ func (mgr *TaskMgr) NewTask(id, cron, host, user, taskName string, rawConfig str
 		return nil, ecode.WithErrorMessage(ecode.ErrForbidden, errors.New("task exists"))
 	}
 	// init task db
+	if cfg.Client.Address == "" {
+		cfg.Client.Version = configbase.ClientVersion3
+		cfg.Client.Address = mgr.config.Nebula.Address
+		cfg.Client.User = mgr.config.Nebula.User
+		cfg.Client.Password = mgr.config.Nebula.Password
+		cfg.Client.ConcurrencyPerAddress = 1000
+		cfg.Client.ReconnectInitialInterval = 5000
+		cfg.Client.Retry = 3
+		cfg.Client.RetryInitialInterval = 5000
+	}
+
 	taskInfo := &db.TaskInfo{
 		BID:           id,
 		Cron:          cron,
