@@ -127,18 +127,9 @@ func (mgr *TaskMgr) NewTask(id, cron, host, user, taskName string, rawConfig str
 	} else if t != nil {
 		return nil, ecode.WithErrorMessage(ecode.ErrForbidden, errors.New("task exists"))
 	}
-	// init task db
-	if cfg.Client.Address == "" {
-		cfg.Client.Version = configbase.ClientVersion3
-		cfg.Client.Address = mgr.config.Nebula.Address
-		cfg.Client.User = mgr.config.Nebula.User
-		cfg.Client.Password = mgr.config.Nebula.Password
-		cfg.Client.ConcurrencyPerAddress = 1000
-		cfg.Client.ReconnectInitialInterval = 5000
-		cfg.Client.Retry = 3
-		cfg.Client.RetryInitialInterval = 5000
-	}
+	mgr.setDefault(cfg)
 
+	// init task db
 	taskInfo := &db.TaskInfo{
 		BID:           id,
 		Cron:          cron,
@@ -166,6 +157,19 @@ func (mgr *TaskMgr) NewTask(id, cron, host, user, taskName string, rawConfig str
 	}
 	mgr.PutTask(id, task)
 	return task, nil
+}
+
+func (mgr *TaskMgr) setDefault(cfg *types.ImportTaskV2Config) {
+	if cfg.Client.Address == "" {
+		cfg.Client.Version = configbase.ClientVersion3
+		cfg.Client.Address = mgr.config.Nebula.Address
+		cfg.Client.User = mgr.config.Nebula.User
+		cfg.Client.Password = mgr.config.Nebula.Password
+		cfg.Client.ConcurrencyPerAddress = 1000
+		cfg.Client.ReconnectInitialInterval = 5000
+		cfg.Client.Retry = 3
+		cfg.Client.RetryInitialInterval = 5000
+	}
 }
 
 func (mgr *TaskMgr) StartTask(info *db.TaskInfo) error {
@@ -269,6 +273,7 @@ func (mgr *TaskMgr) GetTaskInfoByName(taskName string) (task *db.TaskInfo, err e
 
 func (mgr *TaskMgr) TurnDraftToTask(id, cron, taskName string, rawCfg string, cfg *types.ImportTaskV2Config) (*Task, error) {
 	// init task db
+	mgr.setDefault(cfg)
 	taskInfo := &db.TaskInfo{
 		BID:           id,
 		Cron:          cron,
