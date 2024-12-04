@@ -49,9 +49,10 @@ func NewTaskMgr(serverName string, tackConfig *types.TaskConfig) {
 		return
 	}
 	taskmgr = &TaskMgr{
-		cache: &sync.Map{},
-		db:    &db.TaskDb{DB: openDB},
-		dcron: dcronInstance,
+		cache:  &sync.Map{},
+		db:     &db.TaskDb{DB: openDB},
+		config: tackConfig,
+		dcron:  dcronInstance,
 	}
 	InitTask()
 	go taskmgr.startCronTask()
