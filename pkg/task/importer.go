@@ -129,7 +129,7 @@ func GetManyImportTask(space string,
 		List:  []types.GetImportTaskData{},
 	}
 
-	tasks, count, err := taskmgr.db.FindTaskInfoByAddressAndUser(address, username, space, status, pageIndex, pageSize)
+	tasks, count, err := taskmgr.db.FindTaskInfoByAddressAndUser(space, status, pageIndex, pageSize)
 	if err != nil {
 		return nil, err
 	}
