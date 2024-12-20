@@ -30,12 +30,12 @@ const (
 
 type (
 	ImportService interface {
-		CreateImportTask(t *types.CreateImportTaskReq) (*types.CreateImportTaskData, error)
-		RestartImportTask(t *types.RestartImportTaskReq) (bool, error)
-		StopImportTask(request *types.StopImportTaskReq) error
+		CreateImportTask(*types.CreateImportTaskReq) (*types.CreateImportTaskData, error)
+		RestartImportTask(*types.RestartImportTaskReq) (bool, error)
+		StopImportTask(*types.StopImportTaskReq) error
 		DeleteImportTask(*types.DeleteImportTaskReq) error
 		GetImportTask(*types.GetImportTaskReq) (*types.GetImportTaskData, error)
-		GetManyImportTask(request *types.GetManyImportTaskReq) (*types.GetManyImportTaskData, error)
+		GetManyImportTask(*types.GetManyImportTaskReq) (*types.GetManyImportTaskData, error)
 	}
 
 	importService struct {
@@ -155,6 +155,5 @@ func (i *importService) GetImportTask(req *types.GetImportTaskReq) (*types.GetIm
 }
 
 func (i *importService) GetManyImportTask(req *types.GetManyImportTaskReq) (*types.GetManyImportTaskData, error) {
-	host := i.config.Nebula.Address
-	return importer.GetManyImportTask(host, i.config.Nebula.User, req.Space, req.Page, req.PageSize, req.Status)
+	return importer.GetManyImportTask(req.Space, req.Page, req.PageSize, req.Status)
 }
