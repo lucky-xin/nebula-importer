@@ -28,10 +28,10 @@ func (t *TaskDb) FindTaskInfoById(id string) (*TaskInfo, error) {
 	return taskInfo, nil
 }
 
-func (t *TaskDb) FindTaskInfoByAddressAndUser(address, user, space, status string, pageIndex, pageSize int) ([]*TaskInfo, int64, error) {
+func (t *TaskDb) FindTaskInfoByAddressAndUser(space, status string, pageIndex, pageSize int) ([]*TaskInfo, int64, error) {
 	tasks := make([]*TaskInfo, 0)
 	var count int64
-	tx := t.Model(&TaskInfo{}).Where("address = ? And user = ?", address, user)
+	tx := t.Model(&TaskInfo{})
 	if space != "" {
 		tx = tx.Where("space = ?", space)
 	}
@@ -82,6 +82,7 @@ func (t *TaskDb) UpdateTaskInfo(info *TaskInfo) error {
 }
 
 func (t *TaskDb) DelTaskInfo(ID string) error {
+	_ = t.Delete(&TaskEffect{}, "task_id = ?", ID).Error
 	return t.Delete(&TaskInfo{}, "b_id = ?", ID).Error
 }
 

@@ -121,8 +121,7 @@ func GetImportTask(taskID, address, username string) (*types.GetImportTaskData, 
 	return nil, errors.New("task not existed")
 }
 
-func GetManyImportTask(
-	address, username, space string,
+func GetManyImportTask(space string,
 	pageIndex, pageSize int,
 	status string) (*types.GetManyImportTaskData, error) {
 	result := &types.GetManyImportTaskData{
