@@ -20,6 +20,8 @@ type (
 
 		IgnoreExistedIndex *bool `yaml:"ignoreExistedIndex,omitempty" json:"ignoreExistedIndex,omitempty,optional,default=false"`
 
+		IgnoreExistedRecord *bool `yaml:"ignoreExistedRecord,omitempty" json:"ignoreExistedRecord,omitempty,default=false"`
+
 		Filter *specbase.Filter `yaml:"filter,omitempty" json:"filter,omitempty,optional"`
 
 		Mode specbase.Mode `yaml:"mode,omitempty" json:"mode,omitempty,optional,default=insert"`
@@ -127,7 +129,12 @@ func (e *Edge) Complete() {
 		// default enable IGNORE_EXISTED_INDEX
 		insertPrefixFmt := "INSERT EDGE IGNORE_EXISTED_INDEX %s(%s) VALUES "
 		if e.IgnoreExistedIndex != nil && !*e.IgnoreExistedIndex {
-			insertPrefixFmt = "INSERT EDGE %s(%s) VALUES "
+
+			if e.IgnoreExistedRecord != nil && *e.IgnoreExistedRecord {
+				insertPrefixFmt = "INSERT EDGE IF NOT EXISTS %s(%s) VALUES "
+			} else {
+				insertPrefixFmt = "INSERT EDGE %s(%s) VALUES "
+			}
 		}
 
 		e.statementPrefix = fmt.Sprintf(

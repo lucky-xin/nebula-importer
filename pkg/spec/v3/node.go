@@ -19,6 +19,8 @@ type (
 
 		IgnoreExistedIndex *bool `yaml:"ignoreExistedIndex,omitempty" json:"ignoreExistedIndex,omitempty,default=false"`
 
+		IgnoreExistedRecord *bool `yaml:"ignoreExistedRecord,omitempty" json:"ignoreExistedRecord,omitempty,default=false"`
+
 		Filter *specbase.Filter `yaml:"filter,omitempty" json:"filter,omitempty,optional"`
 
 		Mode specbase.Mode `yaml:"mode,omitempty" json:"mode,omitempty,default=insert"`
@@ -96,7 +98,11 @@ func (n *Node) Complete() {
 		// default enable IGNORE_EXISTED_INDEX
 		insertPrefixFmt := "INSERT VERTEX IGNORE_EXISTED_INDEX %s(%s) VALUES "
 		if n.IgnoreExistedIndex != nil && !*n.IgnoreExistedIndex {
-			insertPrefixFmt = "INSERT VERTEX %s(%s) VALUES "
+			if n.IgnoreExistedRecord != nil && *n.IgnoreExistedRecord {
+				insertPrefixFmt = "INSERT VERTEX IF NOT EXISTS %s(%s) VALUES "
+			} else {
+				insertPrefixFmt = "INSERT VERTEX %s(%s) VALUES "
+			}
 		}
 		n.statementPrefix = fmt.Sprintf(
 			insertPrefixFmt,
