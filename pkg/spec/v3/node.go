@@ -97,7 +97,7 @@ func (n *Node) Complete() {
 		n.fnStatement = n.insertStatement
 		// default enable IGNORE_EXISTED_INDEX
 		prefix := "INSERT VERTEX"
-		if n.IgnoreExistedIndex != nil && !*n.IgnoreExistedIndex {
+		if n.IgnoreExistedIndex != nil && *n.IgnoreExistedIndex {
 			prefix = "INSERT VERTEX IGNORE_EXISTED_INDEX"
 		}
 		if n.IgnoreExistedRecord != nil && *n.IgnoreExistedRecord {

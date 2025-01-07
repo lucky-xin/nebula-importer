@@ -128,7 +128,7 @@ func (e *Edge) Complete() {
 		e.fnStatement = e.insertStatement
 		// default enable IGNORE_EXISTED_INDEX
 		prefix := "INSERT EDGE"
-		if e.IgnoreExistedIndex != nil && !*e.IgnoreExistedIndex {
+		if e.IgnoreExistedIndex != nil && *e.IgnoreExistedIndex {
 			prefix = "INSERT EDGE IGNORE_EXISTED_INDEX"
 		}
 		if e.IgnoreExistedRecord != nil && *e.IgnoreExistedRecord {
