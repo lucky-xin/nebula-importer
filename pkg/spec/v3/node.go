@@ -96,16 +96,17 @@ func (n *Node) Complete() {
 	case specbase.InsertMode:
 		n.fnStatement = n.insertStatement
 		// default enable IGNORE_EXISTED_INDEX
-		insertPrefixFmt := "INSERT VERTEX IGNORE_EXISTED_INDEX %s(%s) VALUES "
+		prefix := "INSERT VERTEX"
 		if n.IgnoreExistedIndex != nil && !*n.IgnoreExistedIndex {
-			if n.IgnoreExistedRecord != nil && *n.IgnoreExistedRecord {
-				insertPrefixFmt = "INSERT VERTEX IF NOT EXISTS %s(%s) VALUES "
-			} else {
-				insertPrefixFmt = "INSERT VERTEX %s(%s) VALUES "
-			}
+			prefix = "INSERT VERTEX IGNORE_EXISTED_INDEX"
 		}
+		if n.IgnoreExistedRecord != nil && *n.IgnoreExistedRecord {
+			prefix = prefix + " IF NOT EXISTS"
+		}
+		insertPrefixFmt := "%s %s(%s) VALUES "
 		n.statementPrefix = fmt.Sprintf(
 			insertPrefixFmt,
+			prefix,
 			utils.ConvertIdentifier(n.Name),
 			strings.Join(n.Props.NameList(), ", "),
 		)

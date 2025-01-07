@@ -127,18 +127,17 @@ func (e *Edge) Complete() {
 	case specbase.InsertMode:
 		e.fnStatement = e.insertStatement
 		// default enable IGNORE_EXISTED_INDEX
-		insertPrefixFmt := "INSERT EDGE IGNORE_EXISTED_INDEX %s(%s) VALUES "
+		prefix := "INSERT EDGE"
 		if e.IgnoreExistedIndex != nil && !*e.IgnoreExistedIndex {
-
-			if e.IgnoreExistedRecord != nil && *e.IgnoreExistedRecord {
-				insertPrefixFmt = "INSERT EDGE IF NOT EXISTS %s(%s) VALUES "
-			} else {
-				insertPrefixFmt = "INSERT EDGE %s(%s) VALUES "
-			}
+			prefix = "INSERT EDGE IGNORE_EXISTED_INDEX"
 		}
-
+		if e.IgnoreExistedRecord != nil && *e.IgnoreExistedRecord {
+			prefix = prefix + " IF NOT EXISTS"
+		}
+		insertPrefixFmt := "%s %s(%s) VALUES "
 		e.statementPrefix = fmt.Sprintf(
 			insertPrefixFmt,
+			prefix,
 			utils.ConvertIdentifier(e.Name),
 			strings.Join(e.Props.NameList(), ", "),
 		)
